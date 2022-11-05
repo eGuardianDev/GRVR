@@ -15,3 +15,4 @@ trying to animate something for games or movies, tracking sport stats or anythin
 
  - Python (<b>Testing & 3d visualization</b>) <br>
  - C# (<b> Middle driver & UI</b>)
+ - C++ (<b> Firmware <b>) | [soon SteamVR support]
