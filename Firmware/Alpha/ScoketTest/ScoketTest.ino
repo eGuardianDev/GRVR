@@ -2,7 +2,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 
-const uint16_t port = 8585;
+const uint16_t port = 5005;
 const char *host = "192.168.0.103";
 WiFiClient client;
 void setup()
@@ -27,14 +27,14 @@ void loop()
         return;
     }
     Serial.println("Connected to server successful!");
-    client.println("Hello From ESP8266");
-    delay(10);
+    client.print("Hello From ESP8266");
+   /* delay(10);
     while (client.available() > 0)
     {
         char c = client.read();
         Serial.write(c);
-    }
+    }*/
     Serial.print('\n');
-    client.stop();
+   //client.stop();
     delay(10);
 }
