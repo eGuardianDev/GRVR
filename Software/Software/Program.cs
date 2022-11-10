@@ -36,11 +36,11 @@ namespace Software
 
             // Show
             Console.WriteLine("Starting Console");
-            Thread.Sleep(1000);
-            //ShowWindow(handle, SW_HIDE);
+            //Thread.Sleep(1000);
+            ShowWindow(handle, SW_HIDE);
 
             // Show
-            ShowWindow(handle, SW_SHOW);
+           // ShowWindow(handle, SW_SHOW);
 
 
             [DllImport("kernel32.dll", SetLastError = true)]

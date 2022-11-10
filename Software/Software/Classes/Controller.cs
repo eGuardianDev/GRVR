@@ -19,9 +19,10 @@ namespace Software.Classes
         public List<Sensor> Sensors;
         
         public bool IsStationOnline { get { return this.isStationOnline; } private set { isStationOnline = value; } }
-
-        public Controller()
+        MainWindowViewModel vm;
+        public Controller(MainWindowViewModel vm)
         {
+            this.vm = vm;
             this.Sensors = new List<Sensor>();
          //   Dispatcher.UIThread.Post(() => LongRunningTask(), DispatcherPriority.Background);
         }
@@ -32,7 +33,8 @@ namespace Software.Classes
             while (true)
             {
                 Thread.Sleep(1000);
-                Console.WriteLine("data");
+                Logger.Warn("Hello");
+                vm.Greeting = "Worlds";
             }
         }
 
