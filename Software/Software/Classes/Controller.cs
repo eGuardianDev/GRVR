@@ -8,12 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO.Ports;
 
 namespace Software.Classes
 {
     internal class Controller
     {
-
+        SerialPort sp;
         private bool isStationOnline;
 
         public List<Sensor> Sensors;
