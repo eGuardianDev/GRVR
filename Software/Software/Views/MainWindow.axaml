@@ -15,8 +15,6 @@
     </Design.DataContext>
 
 	<StackPanel>
-		<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
 	<TabControl>
 		
 		<TabItem VerticalContentAlignment="Center">
@@ -25,6 +23,7 @@
 			</TabItem.Header>
 
 			<StackPanel>
+				<TextBlock Text="{Binding Doge} " HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
 				<TextBlock Text="Welcome to GRVR. " HorizontalAlignment="Left" VerticalAlignment="Center"/>
 				<TextBlock Text="Here you can control the hardware and how it's implemented " HorizontalAlignment="Left" VerticalAlignment="Center"/>

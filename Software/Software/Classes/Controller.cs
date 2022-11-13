@@ -32,23 +32,31 @@ namespace Software.Classes
         {
             while (true)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
+                vm.Doge = "asd";
+                Thread.Sleep(500);
                 Logger.Warn("Hello");
-                vm.Greeting = "Worlds";
+               vm.Doge = "Worlds";
             }
         }
 
         //initialize communication with station.
         public int InitializeStation()
         {
-            //communicate serial
+            // Todo:
+            // connect
+            // ask for sensors
+            // initilize
+            // ask to send data
+            // start the sending loop
 
-            
             return 0;
         }
 
+        //Add sensor to the local veriables
         public int AddSensor(int id)
         {
+            //Error handle
             if(id < 0)
             {
                 throw new ArgumentException("Sensor id cannot be negative");

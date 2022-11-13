@@ -1,5 +1,7 @@
-﻿using ReactiveUI;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using ReactiveUI;
 using Software.Classes;
+using System.Dynamic;
 using System.Linq;
 using System.Reactive;
 using System.Threading;
@@ -9,28 +11,37 @@ namespace Software.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public string[] MyItems = new string[2];
-        public string Doge => "doge!";
-
-        public MainWindowViewModel(){
-            ShowLogs = ReactiveCommand.Create(LogsSpawn);
-
-            Controller c = new Controller(this);
-            MyItems.Append("Hello");
-            MyItems.Append("World");
-            Thread t = new Thread(c.Loop);
-            t.IsBackground = true;
-           // t.Start();
+        private string doge = "";
+        public string Doge { get => doge;
+            set => this.RaiseAndSetIfChanged(ref doge, value);
         }
-       
 
-            public ICommand ShowLogs{ get; }
+        //One of the first thing that starts when the program is ran
+        public MainWindowViewModel(){
+
+            //start main procces controlls
+            StartBackgroundProccess();
+            
+            //Setup button commands
+            ShowLogs = ReactiveCommand.Create(LogsSpawn);
+        }
 
 
-        public string Greeting => "Welcome to Avalonia!";
+        public ICommand ShowLogs{ get; }
+
+        //Show console
         public void LogsSpawn()
         {
             Logger.ShowHide();
         }
+        //Starting background proccesses that will be used for connecting to the station
+        public void StartBackgroundProccess()
+        {
+            Controller c = new Controller(this);
+            Thread t = new Thread(c.Loop);
+            t.IsBackground = true;
+            t.Start();
+        }
+
     }
 }
