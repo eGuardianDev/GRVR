@@ -8,65 +8,67 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.IO.Ports;
 
 namespace Software.Classes
 {
+    public struct SensorData
+    {
+        public float x1;
+        public float y1;
+        public float z1;
+        public float x2;
+        public float y2;
+        public float z2;
+        public float id;
+    }
     internal class Controller
     {
-        SerialPort sp;
-        private bool isStationOnline;
-
-        public List<Sensor> Sensors;
-        
-        public bool IsStationOnline { get { return this.isStationOnline; } private set { isStationOnline = value; } }
-        MainWindowViewModel vm;
+        Station station;
+         MainWindowViewModel vm;
         public Controller(MainWindowViewModel vm)
         {
             this.vm = vm;
-            this.Sensors = new List<Sensor>();
-         //   Dispatcher.UIThread.Post(() => LongRunningTask(), DispatcherPriority.Background);
+            Station station = new Station();
+
+            //   Dispatcher.UIThread.Post(() => LongRunningTask(), DispatcherPriority.Background);
         }
- 
-        //infinite loop; main logic will be here
+
+        //begining of the background worker
         public void Loop()
         {
+            // -- Some setup --
+            //Connecting to station
+            station.Connect();
+
+            // -- infinite loop --
+            //main logic will be here
             while (true)
             {
-                Thread.Sleep(500);
-                vm.Doge = "asd";
-                Thread.Sleep(500);
-                Logger.Warn("Hello");
-               vm.Doge = "Worlds";
+               // Thread.Sleep(500);
+               // vm.Doge = "asd";
+               // Thread.Sleep(500);
+               // Logger.Warn("Hello");
+               // vm.Doge = "Worlds";
+
+                
+                //Read from station
+                //start a thread ??
+                station.Loop();
+                
+                //Do mathematics/algorithms 
             }
+        }
+        
+
+        public int GetDataFromSensor(int id)
+        {
+            return 0;
         }
 
         //initialize communication with station.
-        public int InitializeStation()
-        {
-            // Todo:
-            // connect
-            // ask for sensors
-            // initilize
-            // ask to send data
-            // start the sending loop
 
-            return 0;
-        }
 
         //Add sensor to the local veriables
-        public int AddSensor(int id)
-        {
-            //Error handle
-            if(id < 0)
-            {
-                throw new ArgumentException("Sensor id cannot be negative");
-            }
-
-            Sensors.Add(new Sensor(id));
-
-            return 0;
-        }
-
+        
     }
 }

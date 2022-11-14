@@ -17,6 +17,7 @@ namespace Software.Classes
         public int X { get { return x; } private set { x = value; } }
         public int Y { get { return Y; } private set { y = value; } }
         public int Z { get { return Z; } private set { z = value; } }
+        public int ID { get { return Z; } private set { this.id = value; }}
 
         public Sensor(int id = 0)
         {
