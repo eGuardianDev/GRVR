@@ -22,7 +22,7 @@ namespace Software.Classes
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        private static string data;
+        private static string data = "";
         const int SW_HIDE = 0;
         const int SW_SHOW = 5;
         public static void ShowHide()
@@ -38,11 +38,11 @@ namespace Software.Classes
         {
             data = $"[Info] {information}";
 
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write ("[Info] ->");
-
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($" ({DateTime.Now:HH:mm:ss})");
+            Console.Write($" ({DateTime.Now:HH:mm:ss}) ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write ("[Info] ");
+
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($" {information}");
         }

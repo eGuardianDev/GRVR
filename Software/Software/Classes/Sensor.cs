@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Software.Classes
 {
-    internal class Sensor
+    public class Sensor
     {
         private int id;
 

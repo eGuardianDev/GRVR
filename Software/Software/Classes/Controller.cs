@@ -24,11 +24,11 @@ namespace Software.Classes
     internal class Controller
     {
         Station station;
-         MainWindowViewModel vm;
+        MainWindowViewModel vm;
         public Controller(MainWindowViewModel vm)
         {
             this.vm = vm;
-            Station station = new Station();
+            this.station = new Station("COM6", 9600);
 
             //   Dispatcher.UIThread.Post(() => LongRunningTask(), DispatcherPriority.Background);
         }
@@ -39,22 +39,28 @@ namespace Software.Classes
             // -- Some setup --
             //Connecting to station
             station.Connect();
+            Bone b = new Bone(null, 2);
 
+            b.Rot.X = 45;
+            b.Rot.Y = 45;
+
+            b.Calculate();
+            Logger.Info(b.EndPos.Z.ToString());
             // -- infinite loop --
             //main logic will be here
             while (true)
             {
-               // Thread.Sleep(500);
-               // vm.Doge = "asd";
-               // Thread.Sleep(500);
-               // Logger.Warn("Hello");
-               // vm.Doge = "Worlds";
+                // Thread.Sleep(500);
+                // vm.Doge = "asd";
+                // Thread.Sleep(500);
+                // Logger.Warn("Hello");
+                // vm.Doge = "Worlds";
 
-                
+
                 //Read from station
                 //start a thread ??
-                station.Loop();
-                
+                // station.Loop();
+                Thread.Sleep(1000);
                 //Do mathematics/algorithms 
             }
         }
