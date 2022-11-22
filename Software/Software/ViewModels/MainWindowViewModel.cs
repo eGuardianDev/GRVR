@@ -1,6 +1,8 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Avalonia.Collections;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReactiveUI;
 using Software.Classes;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Reactive;
@@ -14,6 +16,17 @@ namespace Software.ViewModels
         private string doge = "";
         public string Doge { get => doge;
             set => this.RaiseAndSetIfChanged(ref doge, value);
+        }
+        private AvaloniaList<Sensor> sensors = new AvaloniaList<Sensor>();
+        public AvaloniaList<Sensor> sens
+        {
+            get => sensors;
+            set
+            {
+                sensors = value;
+                this.RaiseAndSetIfChanged(ref sensors, value);
+               
+            }
         }
 
         //One of the first thing that starts when the program is ran

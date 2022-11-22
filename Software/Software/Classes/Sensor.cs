@@ -10,14 +10,14 @@ namespace Software.Classes
     {
         private int id;
 
-        private int x;
-        private int y;
-        private int z;
+        private double x;
+        private double y;
+        private double z;
 
-        public int X { get { return x; } private set { x = value; } }
-        public int Y { get { return Y; } private set { y = value; } }
-        public int Z { get { return Z; } private set { z = value; } }
-        public int ID { get { return Z; } private set { this.id = value; }}
+        public double X { get { return x; }  set { x = value; } }
+        public double Y { get { return y; }  set { y = value; } }
+        public double Z { get { return z; }  set { z = value; } }
+        public int ID { get { return id; }  set { this.id = value; }}
 
         public Sensor(int id = 0)
         {

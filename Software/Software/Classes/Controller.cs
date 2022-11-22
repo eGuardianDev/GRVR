@@ -1,5 +1,7 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia.Collections;
+using Avalonia.Controls;
 using Avalonia.Threading;
+using DynamicData.Binding;
 using Software.ViewModels;
 using Software.Views;
 using System;
@@ -28,47 +30,35 @@ namespace Software.Classes
         public Controller(MainWindowViewModel vm)
         {
             this.vm = vm;
-            this.station = new Station("COM6", 9600);
+            this.station = new Station(this, "COM6", 115200);
 
-            //   Dispatcher.UIThread.Post(() => LongRunningTask(), DispatcherPriority.Background);
         }
 
-        //begining of the background worker
+        //beginning of the background worker
         public void Loop()
         {
             // -- Some setup --
             //Connecting to station
             station.Connect();
-            Bone b = new Bone(null, 2);
+           
 
-            b.Rot.X = 45;
-            b.Rot.Y = 45;
-
-            b.Calculate();
-            Logger.Info(b.EndPos.Z.ToString());
-            // -- infinite loop --
-            //main logic will be here
+            // -- program loop --
             while (true)
             {
-                // Thread.Sleep(500);
-                // vm.Doge = "asd";
-                // Thread.Sleep(500);
-                // Logger.Warn("Hello");
-                // vm.Doge = "Worlds";
-
-
-                //Read from station
-                //start a thread ??
-                // station.Loop();
-                Thread.Sleep(1000);
+                if (station.Sensors.Count > 0)
+                {
+                    Logger.Log(station.GetSensor(0).X.ToString());
+                }
+                Thread.Sleep(150);
+            
+             // vm.sens = station.Sensors;
                 //Do mathematics/algorithms 
             }
         }
-        
 
-        public int GetDataFromSensor(int id)
+        public void addToUI(Sensor s )
         {
-            return 0;
+            vm.sens.Add(s);
         }
 
         //initialize communication with station.

@@ -39,32 +39,22 @@
 			</TabItem.Header>
 			
 			<StackPanel>
-				<Grid ShowGridLines="True">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="*"></RowDefinition>
-						<RowDefinition Height="*"></RowDefinition>
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*"></ColumnDefinition>
-						<ColumnDefinition Width="*"></ColumnDefinition>
-					</Grid.ColumnDefinitions>
+					<StackPanel Width="250" Height="350">
 
-					<StackPanel Grid.Row="0" Grid.Column="0">
 						<ScrollViewer MaxHeight="350" >
-							<ListBox Items="{Binding Devices}"
+							<ListBox Items="{Binding sens}"
 							SelectedItem="{Binding SelectedDevice}"
 							SelectionMode="Single, Toggle">
 								<ListBox.ItemTemplate>
 									<DataTemplate>
 										<StackPanel Margin="5">
-											<TextBlock   Text="{Binding		}" />
+											<TextBlock Text="{Binding ID}" />
 										</StackPanel>
 									</DataTemplate>
 								</ListBox.ItemTemplate>
 							</ListBox>
 						</ScrollViewer>
 					</StackPanel>
-				</Grid>
 			
 			</StackPanel>
 			

@@ -25,6 +25,7 @@ namespace Software.Classes
         private static string data = "";
         const int SW_HIDE = 0;
         const int SW_SHOW = 5;
+        public static bool DebugMode = true;
         public static void ShowHide()
         {
             var handle = GetConsoleWindow();
@@ -33,6 +34,19 @@ namespace Software.Classes
 
             Info("IF YOU CLOSE THE CONSOLE, THE WHOLE APPLICATION WILL CLOSE!");
 
+        }
+        public static void Log(string information)
+        {
+            if (!DebugMode) return;
+            data = $"[Log] {information}";
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($" ({DateTime.Now:HH:mm:ss}) ");
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write("[Log] ");
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($" {information}");
         }
         public static void Info(string information)
         {
@@ -49,12 +63,12 @@ namespace Software.Classes
         public static void Warn(string information)
         {
             data = $"[Warning] {information}";
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($" ({DateTime.Now:HH:mm:ss}) ");
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("[Warning] ->");
+            Console.Write("[Warning] ");
 
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($" ({DateTime.Now:HH:mm:ss})");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($" {information}");
         }
