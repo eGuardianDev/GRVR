@@ -23,10 +23,12 @@ namespace Software.Classes
         public float z2;
         public float id;
     }
-    internal class Controller
+    public class Controller
     {
-        Station station;
+        Skeleton skeleton;
+        public Station station;
         MainWindowViewModel vm;
+        Bone bone;
         public Controller(MainWindowViewModel vm)
         {
             this.vm = vm;
@@ -40,24 +42,31 @@ namespace Software.Classes
             // -- Some setup --
             //Connecting to station
             station.Connect();
-           
+            while((station.Sensors.Count < 1))
+            {
+            }
+                Logger.Log("creating skeleton");
+                skeleton = new Skeleton(this); 
 
             // -- program loop --
             while (true)
             {
-                if (station.Sensors.Count > 0)
-                {
-                    Logger.Log(station.GetSensor(0).X.ToString());
-                }
-                Thread.Sleep(150);
-            
-             // vm.sens = station.Sensors;
-                //Do mathematics/algorithms 
+                //Calculate every bone position
+                    skeleton.Calculate();
+                Bone b = skeleton.bone(0);
+                //Display first bone position
+                Logger.Log($"{Math.Round(b.EndPos.X,2)} {Math.Round(b.EndPos.Y,2)} {Math.Round(b.EndPos.Z, 2)}  {Math.Round(b.Rot.X, 2)}".ToString());
+                //Display second bone position
+               // Logger.Log(Math.Round(b2.EndPos.X,2).ToString());
+              
+
+                Thread.Sleep(15);
             }
         }
 
         public void addToUI(Sensor s )
         {
+            
             vm.sens.Add(s);
         }
 

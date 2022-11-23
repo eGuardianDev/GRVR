@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Software.Classes
 {
-    internal class Algorithms
+    internal class Class1
     {
     }
 }

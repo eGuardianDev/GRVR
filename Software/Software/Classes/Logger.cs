@@ -33,6 +33,7 @@ namespace Software.Classes
             ShowWindow(handle, SW_SHOW);
 
             Info("IF YOU CLOSE THE CONSOLE, THE WHOLE APPLICATION WILL CLOSE!");
+            Info($"Debug mode {(DebugMode ? "On" : "Off")}");
 
         }
         public static void Log(string information)
@@ -67,7 +68,7 @@ namespace Software.Classes
             Console.Write($" ({DateTime.Now:HH:mm:ss}) ");
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("[Warning] ");
+            Console.Write("[Warn] ");
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($" {information}");
@@ -75,6 +76,14 @@ namespace Software.Classes
         public static void Error(string information)
         {
             data = $"[Error] {information}";
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($" ({DateTime.Now:HH:mm:ss}) ");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("[Error] ");
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($" {information}");
         }
     }
 }

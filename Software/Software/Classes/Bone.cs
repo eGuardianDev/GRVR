@@ -28,7 +28,7 @@ namespace Software.Classes
 
         //This is the bone that is connected before it
         //It's used for repositioning
-        private Bone parentBone;
+        public Bone parentBone;
 
         //This variables stores the sensor used for calculating rotiaton
         private Sensor connectedSensor;
@@ -68,38 +68,46 @@ namespace Software.Classes
         {
             Logger.Info("New bone was created.");
             this.parentBone = parent;
-            this.lenght = lenght;
+            this.Lenght = lenght;
 
-            if(parentBone != null)
-            {
-                StartPos.X = parentBone.StartPos.X;
-                StartPos.Y = parentBone.StartPos.Y;
-                StartPos.Z = parentBone.StartPos.Z;
-            }
         }
         //recalculate the rotaiton of sensor
         public int Calculate()
         {
-            //2d caculations
-            double sin = Math.Sin((Rot.Y * Math.PI) / 180);
-            double cos = Math.Cos((Rot.Y* Math.PI) / 180);
+           /* if(parentBone != null)
+            {
+                StartPos.X = parentBone.EndPos.X;
+                StartPos.Y = parentBone.EndPos.Y;
+                StartPos.Z = parentBone.EndPos.Z;
+            }*/
+            Rot.X = ConnctedSensor.X;
+            Rot.Y = ConnctedSensor.Y;
+            Rot.Z = ConnctedSensor.Z;
+            int size = 2;
 
+            double deg = Rot.Y;
 
+            double sin = Math.Sin(deg * Math.PI / 180);
+            double cos = Math.Cos(deg * Math.PI / 180);
+            sin = Math.Round(sin, 2);
+            cos = Math.Round(cos, 2);
 
-            double x = Math.Sin((Rot.X * Math.PI) / 180);
-            double y = Math.Cos((Rot.X * Math.PI) / 180);
-            double z = 0;
+            double x = cos * Lenght;
+            double y = sin * Lenght;
 
+            //Logger.Log($"x: {x} y: {y}");
+          double z = 0;
             //adding 3th demention
-            double oldX = x;
-            double oldz = z;
+           double oldX = x;
+           double oldz = z;
             x = oldX * cos - oldz * sin;
-            z = oldz * cos + oldX * sin;
+           z = oldz * cos + oldX * sin;
+          
 
             //end savings
-            EndPos.X = StartPos.X + x * Lenght;
-            EndPos.Y = StartPos.Y + y * Lenght;
-            EndPos.Z = StartPos.Z + z * Lenght;
+            EndPos.X = StartPos.X + (x);
+           EndPos.Y = StartPos.Y + (y );
+            EndPos.Z = StartPos.Z + (z * Lenght);
             return 0;
         }
     }

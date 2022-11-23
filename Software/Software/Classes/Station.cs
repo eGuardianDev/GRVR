@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Software.Classes
 {
-    internal class Station
+    public class Station
     {
         SerialPort Comms;
         Controller control;
@@ -56,12 +56,16 @@ namespace Software.Classes
 
                 try
                 {
-                    Comms.Open();
+                    if (!IsStationOnline)
+                    {
+                        Comms.Open();
+                    }
 
                 }
-                catch (Exception)
+                catch (Exception portInUse)
                 {
-                    Logger.Error("Station isn't connected on current port. Check port or connection");
+                    
+                    Logger.Error("Station cannot connected on current port. Check port, cable or other program using the same port");
                 }
 
                 if (IsStationOnline)
