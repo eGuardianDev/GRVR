@@ -69,6 +69,7 @@ namespace Software.Classes
             Logger.Info("New bone was created.");
             this.parentBone = parent;
             this.Lenght = lenght;
+            
 
         }
         //recalculate the rotaiton of sensor

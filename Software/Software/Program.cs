@@ -38,7 +38,7 @@ namespace Software
             // Show
             Console.WriteLine("Starting Console");
             //Thread.Sleep(1000);
-            ShowWindow(handle, SW_HIDE);
+            ShowWindow(handle, 5);
 
             // Show
            // ShowWindow(handle, SW_SHOW);

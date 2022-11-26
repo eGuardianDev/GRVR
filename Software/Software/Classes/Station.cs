@@ -20,20 +20,25 @@ namespace Software.Classes
             set { this.communicationPort = value; }
 
         }
-
         private int speed;
-
+        public bool AreSensorsReady { get { if (Sensors.Count < 1)
+                {
+                    return false;
+                }
+                else { return true; } 
+            } }
         public bool IsStationOnline { get { return this.Comms.IsOpen; } }
-
         public List<Sensor> Sensors;
         public Station(Controller l,string comPort, int comSpeed)
         {
-            Logger.Info("New station was created.");
+            Logger.Log("New station was created.");
+
             this.control = l;
+
             this.Sensors = new List<Sensor>();
             this.CommunicationPort = comPort;
             this.speed = comSpeed;
-            Comms = new SerialPort(communicationPort, speed);
+            Comms = new SerialPort(CommunicationPort, speed);
         }
         public int Connect()
         {
@@ -62,7 +67,7 @@ namespace Software.Classes
                     }
 
                 }
-                catch (Exception portInUse)
+                catch (Exception )
                 {
                     
                     Logger.Error("Station cannot connected on current port. Check port, cable or other program using the same port");
@@ -119,7 +124,6 @@ namespace Software.Classes
         }
         public int AddSensor(int id)
         {
-
             //Error handle
             if (id < 0)
             {
@@ -139,7 +143,6 @@ namespace Software.Classes
             //  Logger.Info(Sensors.First().X.ToString()) ;
             return 0;
         }
-
         public Sensor GetSensor(int number)
         {
             Sensor s = new Sensor();

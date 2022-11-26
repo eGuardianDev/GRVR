@@ -51,7 +51,7 @@ namespace Software.ViewModels
         public void StartBackgroundProccess()
         {
             Controller c = new Controller(this);
-            Thread t = new Thread(c.Loop);
+            Thread t = new Thread(c.Setup);
             t.IsBackground = true;
             t.Start();
         }

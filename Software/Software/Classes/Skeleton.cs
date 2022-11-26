@@ -9,16 +9,21 @@ namespace Software.Classes
 {
     public class Skeleton
     {
-        List<Bone> bones = new List<Bone>();    
+        List<Bone> bones;
+
+        Bone ArmUp;
+        Bone ArmDown;
+
 
         public Skeleton(Controller c)
         {
-            bones.Add(new Bone());
-            bones.Add(new Bone(bones.Where(x => x.StartPos.X == 0).First()));
-            bones[0].ConnctedSensor = c.station.Sensors[0];
-            bones[1].ConnctedSensor = c.station.Sensors[1];
+            bones = new List<Bone>();
+            ArmUp = new Bone();
+            ArmDown = new Bone(ArmUp);
+            bones.Add(ArmUp);
+            bones.Add(ArmDown);
         }
-        public Bone bone(int boneIndex = 0)
+        public Bone GetBone(int boneIndex = 0)
         {
             if (boneIndex > bones.Count - 1) { 
                 Logger.Error("Out of bound bone selection"); return null;
@@ -26,10 +31,21 @@ namespace Software.Classes
 
             return bones[boneIndex];
         }
+        public int setupBone(int boneIndex, Sensor s)
+        {
+            if (boneIndex > bones.Count - 1)
+            {
+                Logger.Error("Out of bound bone selection");  return 1;
+            }
+
+            bones[boneIndex].ConnctedSensor = s;
+            return 0;
+        }
         public void Calculate()
         {
-            foreach(var bone in bones)
+            foreach (var bone in bones)
             {
+                Logger.Log($"{bone.Rot.X}");
                 bone.Calculate();
             }
         }

@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Threading;
 using DynamicData.Binding;
+using ReactiveUI;
 using Software.ViewModels;
 using Software.Views;
 using System;
@@ -13,67 +14,100 @@ using System.Threading.Tasks;
 
 namespace Software.Classes
 {
-    public struct SensorData
-    {
-        public float x1;
-        public float y1;
-        public float z1;
-        public float x2;
-        public float y2;
-        public float z2;
-        public float id;
-    }
     public class Controller
     {
-        Skeleton skeleton;
-        public Station station;
-        MainWindowViewModel vm;
-        Bone bone;
+        Skeleton skeleton;      // structure of body 
+        public Station station; // communication with hardware 
+        MainWindowViewModel vm; // design  <- bad way of doing, but i'm too lazy to research
+        API api;                // communication with other programs;
         public Controller(MainWindowViewModel vm)
         {
             this.vm = vm;
-            this.station = new Station(this, "COM6", 115200);
-
+            
+           
         }
 
-        //beginning of the background worker
+        public int CreateAPI()
+        {
+            api = new API(8585);
+            return 0;
+        }
+        public int CreateStation()
+        {
+            this.station = new Station(this, "COM6", 115200);
+           // station.Connect();
+          //  while (station.Sensors.Count < 1) continue;
+            
+            return 0;
+        }
+        public int CreateSkeleton()
+        {
+            skeleton = new Skeleton(this);
+
+            return 0;
+        }
+        public int CreateSensors()
+        {
+            skeleton = new Skeleton(this);
+
+            return 0;
+        }
+
+        public void Setup()
+        {
+            // -- Some setup needed --
+            //CreateAPI();
+
+            CreateStation();
+
+            CreateSensors();
+
+            CreateSkeleton();
+
+            station.Connect();
+            Thread.Sleep(1000);
+            skeleton.setupBone(0, station.GetSensor(0));
+            skeleton.setupBone(1, station.GetSensor(1));
+            // -- Loop --
+            Loop();
+        }
+       // public void StartBackgroundProccess() {
+        //Bone b = skeleton.GetBone(0);
+             //       api.Message = ($"{Math.Round(b.EndPos.X, 2)} {Math.Round(b.EndPos.Y, 2)} {Math.Round(b.EndPos.Z, 2)} ");
+        //     Thread t = new Thread(api.StartClient);
+        //    t.IsBackground = true;
+      //        t.Start();
+      //  }
         public void Loop()
         {
-            // -- Some setup --
-            //Connecting to station
-            station.Connect();
-            while((station.Sensors.Count < 1))
-            {
-            }
-                Logger.Log("creating skeleton");
-                skeleton = new Skeleton(this); 
-
-            // -- program loop --
             while (true)
             {
-                //Calculate every bone position
+               if (station.AreSensorsReady)
+                {
                     skeleton.Calculate();
-                Bone b = skeleton.bone(0);
-                //Display first bone position
-                Logger.Log($"{Math.Round(b.EndPos.X,2)} {Math.Round(b.EndPos.Y,2)} {Math.Round(b.EndPos.Z, 2)}  {Math.Round(b.Rot.X, 2)}".ToString());
-                //Display second bone position
-               // Logger.Log(Math.Round(b2.EndPos.X,2).ToString());
-              
+                }
 
-                Thread.Sleep(15);
+                Logger.Log($"{station.GetSensor(0).X}");
+
+              Bone b = skeleton.GetBone(0);
+                
+              Logger.Log($"{Math.Round(b.EndPos.X, 2)} {Math.Round(b.EndPos.Y, 2)} {Math.Round(b.EndPos.Z, 2)}  {Math.Round(b.Rot.X, 2)}".ToString());
+               
+             //   api.Message = ($"{Math.Round(b.EndPos.X, 2)} {Math.Round(b.EndPos.Y, 2)} {Math.Round(b.EndPos.Z, 2)} ");
+
+                Thread.Sleep(500);
             }
         }
 
+
+        // -- some front end communications 
         public void addToUI(Sensor s )
         {
-            
             vm.sens.Add(s);
         }
 
-        //initialize communication with station.
 
 
-        //Add sensor to the local veriables
         
     }
 }
