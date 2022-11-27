@@ -31,7 +31,7 @@ namespace Software.Classes
 
             return bones[boneIndex];
         }
-        public int setupBone(int boneIndex, Sensor s)
+        public int setupBone(int boneIndex, Sensor s, Bone b = null )
         {
             if (boneIndex > bones.Count - 1)
             {
@@ -39,13 +39,14 @@ namespace Software.Classes
             }
 
             bones[boneIndex].ConnctedSensor = s;
+            bones[boneIndex].parentBone = b;
             return 0;
         }
         public void Calculate()
         {
             foreach (var bone in bones)
             {
-                Logger.Log($"{bone.Rot.X}");
+               // Logger.Log($"{bone.Rot.X}");
                 bone.Calculate();
             }
         }

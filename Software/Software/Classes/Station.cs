@@ -56,7 +56,7 @@ namespace Software.Classes
         {
             while (true)
             {
-                if (IsStationOnline) continue;
+                if (IsStationOnline) break; ;
                 Comms = new SerialPort(communicationPort, speed);
 
                 try
@@ -71,6 +71,8 @@ namespace Software.Classes
                 {
                     
                     Logger.Error("Station cannot connected on current port. Check port, cable or other program using the same port");
+                    Comms.Close();
+                    break;
                 }
 
                 if (IsStationOnline)
@@ -145,13 +147,8 @@ namespace Software.Classes
         }
         public Sensor GetSensor(int number)
         {
-            Sensor s = new Sensor();
-            for (int i = 0; i < Sensors.Count - 1; i++)
-            {
-                s = Sensors[i];
-                break;
-            }
-            return s;
+           
+            return Sensors[number];
         }
     }
 }

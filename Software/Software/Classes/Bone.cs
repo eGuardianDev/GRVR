@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Avalonia.Controls.Platform;
+using JetBrains.Annotations;
+using System;
+using System.Diagnostics;
+using System.Reflection.Emit;
 
 namespace Software.Classes
 {
@@ -32,9 +36,11 @@ namespace Software.Classes
 
         //This variables stores the sensor used for calculating rotiaton
         private Sensor connectedSensor;
-        public Sensor ConnctedSensor {
+        public Sensor ConnctedSensor
+        {
             get { return this.connectedSensor; }
-            set { this.connectedSensor = value; } }
+            set { this.connectedSensor = value; }
+        }
 
         //lenght of the bone. Used to caculate end of the bone
         private float lenght;
@@ -69,45 +75,73 @@ namespace Software.Classes
             Logger.Info("New bone was created.");
             this.parentBone = parent;
             this.Lenght = lenght;
-            
+
 
         }
         //recalculate the rotaiton of sensor
         public int Calculate()
         {
-           /* if(parentBone != null)
-            {
-                StartPos.X = parentBone.EndPos.X;
-                StartPos.Y = parentBone.EndPos.Y;
-                StartPos.Z = parentBone.EndPos.Z;
-            }*/
+            /* if(parentBone != null)
+             {
+                 StartPos.X = parentBone.EndPos.X;
+                 StartPos.Y = parentBone.EndPos.Y;
+                 StartPos.Z = parentBone.EndPos.Z;
+             }*/
             Rot.X = ConnctedSensor.X;
             Rot.Y = ConnctedSensor.Y;
             Rot.Z = ConnctedSensor.Z;
             int size = 2;
 
-            double deg = Rot.Y;
 
+            // -- calculate 2D --
+            double deg = Rot.Y;
+            
             double sin = Math.Sin(deg * Math.PI / 180);
             double cos = Math.Cos(deg * Math.PI / 180);
             sin = Math.Round(sin, 2);
             cos = Math.Round(cos, 2);
 
-            double x = cos * Lenght;
-            double y = sin * Lenght;
+            double x = cos;
+            double y = sin;
+
 
             //Logger.Log($"x: {x} y: {y}");
-          double z = 0;
+
+            // -- add 3th demension -- 
+            double z = 0;
+            double alpha = Math.Abs( Rot.X);
+
+            sin = Math.Sin(alpha * Math.PI / 180);
+            cos = Math.Cos(alpha * Math.PI / 180);
+            sin = Math.Round(sin, 2);
+            cos = Math.Round(cos, 2);
+            //     x = cos * Lenght;
+            z = cos;
+
+
+            /*   if (z < 0)
+               {
+                   x += z;
+
+               }
+               else x -= z;
+
+            */
+            if ((x < 0 &&(Rot.X < 90 && Rot.X > -90) )|| (x>0 && Rot.X <-90))
+            {
+                x = -x;
+            }
+
             //adding 3th demention
-           double oldX = x;
-           double oldz = z;
-            x = oldX * cos - oldz * sin;
-           z = oldz * cos + oldX * sin;
-          
+            //   double oldX = x;
+            //   double oldz = z;
+            //  x = oldX * cos - oldz * sin;
+            //     z = oldz * cos + oldX * sin;
+
 
             //end savings
-            EndPos.X = StartPos.X + (x);
-           EndPos.Y = StartPos.Y + (y );
+            EndPos.X = StartPos.X + (x * Lenght);
+            EndPos.Y = StartPos.Y + (y * Lenght);
             EndPos.Z = StartPos.Z + (z * Lenght);
             return 0;
         }

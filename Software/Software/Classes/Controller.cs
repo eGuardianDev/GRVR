@@ -8,6 +8,7 @@ using Software.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,7 +36,7 @@ namespace Software.Classes
         public int CreateStation()
         {
             this.station = new Station(this, "COM6", 115200);
-           // station.Connect();
+          
           //  while (station.Sensors.Count < 1) continue;
             
             return 0;
@@ -60,14 +61,14 @@ namespace Software.Classes
 
             CreateStation();
 
-            CreateSensors();
+          //  CreateSensors();
 
             CreateSkeleton();
 
             station.Connect();
             Thread.Sleep(1000);
-            skeleton.setupBone(0, station.GetSensor(0));
-            skeleton.setupBone(1, station.GetSensor(1));
+           skeleton.setupBone(0, station.GetSensor(0));
+            skeleton.setupBone(1, station.GetSensor(1),skeleton.GetBone(0));
             // -- Loop --
             Loop();
         }
@@ -87,15 +88,14 @@ namespace Software.Classes
                     skeleton.Calculate();
                 }
 
-                Logger.Log($"{station.GetSensor(0).X}");
+                // Logger.Log($"{station.GetSensor(0).X}");
 
-              Bone b = skeleton.GetBone(0);
-                
-              Logger.Log($"{Math.Round(b.EndPos.X, 2)} {Math.Round(b.EndPos.Y, 2)} {Math.Round(b.EndPos.Z, 2)}  {Math.Round(b.Rot.X, 2)}".ToString());
-               
-             //   api.Message = ($"{Math.Round(b.EndPos.X, 2)} {Math.Round(b.EndPos.Y, 2)} {Math.Round(b.EndPos.Z, 2)} ");
+                Bone b = skeleton.GetBone(1);
+                Logger.Log($"{Math.Round(b.EndPos.X, 2)} {Math.Round(b.EndPos.Y, 2)} {Math.Round(b.EndPos.Z, 2)}  {Math.Round(b.Rot.X, 2)} {Math.Round(b.Rot.Y, 2)} {Math.Round(b.Rot.Z, 2)}".ToString());
 
-                Thread.Sleep(500);
+                //   api.Message = ($"{Math.Round(b.EndPos.X, 2)} {Math.Round(b.EndPos.Y, 2)} {Math.Round(b.EndPos.Z, 2)} ");
+
+                Thread.Sleep(15);
             }
         }
 
