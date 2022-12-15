@@ -103,7 +103,7 @@ void SendEuler(int32_t *quat, uint16_t SpamDelay = 100) {
     
   }
 }
-  
+    uint32_t Freq = 0;
 
 //some board information
 void printBoardInformation(){
@@ -124,8 +124,10 @@ void print_Values (int16_t *gyro, int16_t *accel, int32_t *quat) {
 void setup() {
   
   Serial.begin(115200);
+  delay(1000);
   printBoardInformation();
 
+//  Freq = getCpuFrequencyMhz();
   //Netowork is ready to be used;
 
 

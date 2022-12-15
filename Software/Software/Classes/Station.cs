@@ -21,17 +21,22 @@ namespace Software.Classes
 
         }
         private int speed;
-        public bool AreSensorsReady { get { if (Sensors.Count < 1)
+        public bool AreSensorsReady
+        {
+            get
+            {
+                if (Sensors.Count < 1)
                 {
                     return false;
                 }
-                else { return true; } 
-            } }
+                else { return true; }
+            }
+        }
         public bool IsStationOnline { get { return this.Comms.IsOpen; } }
         public List<Sensor> Sensors;
-        public Station(Controller l,string comPort, int comSpeed)
+        public Station(Controller l, string comPort, int comSpeed)
         {
-            Logger.Log("New station was created.");
+            Logger.Log("New station class was created.");
 
             this.control = l;
 
@@ -42,7 +47,7 @@ namespace Software.Classes
         }
         public int Connect()
         {
-            Logger.Info("Connecting to station.");
+            Logger.Info("Attempting to connect to stations.");
             Thread t = new Thread(new ThreadStart(connectingThread));
             t.Start();
             return 0;
@@ -54,34 +59,37 @@ namespace Software.Classes
         }
         public void connectingThread()
         {
-            while (true)
+            if (IsStationOnline) { Logger.Warn("The station is already connected. Abound command"); };
+            Comms = new SerialPort(communicationPort, speed);
+
+            try
             {
-                if (IsStationOnline) break; ;
-                Comms = new SerialPort(communicationPort, speed);
-
-                try
+                if (!IsStationOnline)
                 {
-                    if (!IsStationOnline)
-                    {
-                        Comms.Open();
-                    }
-
-                }
-                catch (Exception )
-                {
-                    
-                    Logger.Error("Station cannot connected on current port. Check port, cable or other program using the same port");
-                    Comms.Close();
-                    break;
+                    Logger.Log("Connecting to selected station");
+                    Comms.Open();
+                    Thread.Sleep(100);
                 }
 
-                if (IsStationOnline)
-                {
-                    Logger.Info("Connected to station!");
-                    Comms.DataReceived += new SerialDataReceivedEventHandler(sp_DataReceived);
-                }
+            }
+            catch (Exception)
+            {
+
+                Logger.Error("Station cannot connected on current port. Check port, cable or other program using the same port");
+                Comms.Close();
+                Reset();
             }
 
+            if (IsStationOnline)
+            {
+                Logger.Info("Connected to station!");
+                Comms.DataReceived += new SerialDataReceivedEventHandler(sp_DataReceived);
+            }
+        }
+        public int Reset()
+        {
+            Sensors.Clear();
+            return 0;
         }
         //Called every time new information is received
         void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -90,33 +98,36 @@ namespace Software.Classes
             try
             {
                 string data = Comms.ReadLine();
+                //   Logger.Log(data);
                 var splitedData = data.Split().ToArray();
                 int id = 0;
                 try
                 {
                     id = int.Parse(splitedData[0]);
 
-                if (Sensors.Any(x => x.ID == id))
-                {
-                    Sensor sensor = Sensors.Where(x => x.ID == id).First();
-                    sensor.X = double.Parse(splitedData[1]);
-                    sensor.Y = double.Parse(splitedData[2]);
-                    sensor.Z = double.Parse(splitedData[3]);
-                    sensor = Sensors.Where(x => x.ID == id + 1).First();
-                    sensor.X = double.Parse(splitedData[4]);
-                    sensor.Y = double.Parse(splitedData[5]);
-                    sensor.Z = double.Parse(splitedData[6]);
-                }
-                else
-                {
-                    AddSensor(id);
-                    AddSensor(id + 1);
-                }
+                    if (Sensors.Any(x => x.ID == id))
+                    {
+                        Sensor sensor = Sensors.Where(x => x.ID == id).First();
+                        sensor.X = double.Parse(splitedData[1]);
+                        sensor.Y = double.Parse(splitedData[2]);
+                        sensor.Z = double.Parse(splitedData[3]);
+
+                        sensor = Sensors.Where(x => x.ID == id + 1).First();
+                        sensor.X = double.Parse(splitedData[4]);
+                        sensor.Y = double.Parse(splitedData[5]);
+                        sensor.Z = double.Parse(splitedData[6]);
+
+                    }
+                    else
+                    {
+                        AddSensor(id);
+                        AddSensor(id + 1);
+                    }
                 }
                 catch (Exception) { }
             }
 
-            catch (UnauthorizedAccessException)
+            catch (Exception)
             {
                 Logger.Warn("Reading data denied! Check if connections isn't disturbed");
                 this.Clean();
@@ -147,7 +158,7 @@ namespace Software.Classes
         }
         public Sensor GetSensor(int number)
         {
-           
+
             return Sensors[number];
         }
     }

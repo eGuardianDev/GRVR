@@ -15,12 +15,19 @@ namespace Software
         [STAThread]
         public static void Main(string[] args)
         {
+            Console.Beep();
+
+            // Wait for the event
+   
             SetupConsole();
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
 
         }
-
+        static void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        {
+            Console.WriteLine("exit");
+        }
         private static void SetupConsole()
         {
             AllocConsole();
@@ -49,6 +56,8 @@ namespace Software
             static extern bool AllocConsole();
 
         }
+      
+
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()

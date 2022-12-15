@@ -87,9 +87,9 @@ namespace Software.Classes
                  StartPos.Y = parentBone.EndPos.Y;
                  StartPos.Z = parentBone.EndPos.Z;
              }*/
-            Rot.X = ConnctedSensor.X;
-            Rot.Y = ConnctedSensor.Y;
-            Rot.Z = ConnctedSensor.Z;
+            Rot.X = ConnctedSensor.X - connectedSensor.OffsetY;
+            Rot.Y = ConnctedSensor.Y - connectedSensor.OffsetY;
+            Rot.Z = ConnctedSensor.Z - connectedSensor.OffsetZ;
             int size = 2;
 
 
@@ -104,20 +104,30 @@ namespace Software.Classes
             double x = cos;
             double y = sin;
 
-
+            bool flag = false;
             //Logger.Log($"x: {x} y: {y}");
+            if ((x < 0 &&(Rot.X < 90 && Rot.X > -90) )|| (x>0 && Rot.X <-90))
+            {
+                x = -x;
+                flag = true;
+            }
 
             // -- add 3th demension -- 
             double z = 0;
-            double alpha = Math.Abs( Rot.X);
+           double alpha = Rot.X;
 
             sin = Math.Sin(alpha * Math.PI / 180);
             cos = Math.Cos(alpha * Math.PI / 180);
             sin = Math.Round(sin, 2);
             cos = Math.Round(cos, 2);
-            //     x = cos * Lenght;
-            z = cos;
+            z = sin * x;
+            x = cos * x;
 
+
+            if (flag)
+            {
+                z = -z;
+            }
 
             /*   if (z < 0)
                {
@@ -127,17 +137,13 @@ namespace Software.Classes
                else x -= z;
 
             */
-            if ((x < 0 &&(Rot.X < 90 && Rot.X > -90) )|| (x>0 && Rot.X <-90))
-            {
-                x = -x;
-            }
 
             //adding 3th demention
             //   double oldX = x;
             //   double oldz = z;
             //  x = oldX * cos - oldz * sin;
             //     z = oldz * cos + oldX * sin;
-
+            if(parentBone != null) StartPos = parentBone.EndPos;
 
             //end savings
             EndPos.X = StartPos.X + (x * Lenght);

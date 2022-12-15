@@ -4,7 +4,7 @@
 
 int stationMode = 0;
 // 0 - connecting
-// 1 - sending sensor initilization
+// 1 - ESP_NOW initilization
 // 2 - sensor data transmition for each sensor
 
 
@@ -26,21 +26,7 @@ void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
   memcpy(&myData, incomingData, sizeof(myData));
  // memcpy(&ReceivedAdd, mac, sizeof(ReceivedAdd));
  // Serial.print("Bytes received: ");
-  Serial.print(len);
-  Serial.print(myData.code);
- // Serial.println(ReceivedAdd[0]);
-  Serial.print(" ");
-  Serial.print (myData.x1);
-  Serial.print (" ");
-  Serial.print (myData.y1);
-  Serial.print (" ");
-  Serial.print (myData.z1);
-  Serial.print (" ");
-  Serial.print (myData.x2);
-  Serial.print (" ");
-  Serial.print (myData.y2);
-  Serial.print (" ");
-  Serial.println (myData.z2);
+  
 }
  
 void setup() {
@@ -58,12 +44,37 @@ void setup() {
 }
 
 void loop() {
+    //waiting for setup
   if(stationMode == 0){
+    
     Serial.println("0");
+    if(Serial.available() > 0){
+      stationMode = 1;
+      
+    }
+
+
+    
+  }else  if(stationMode == 1){
+   //setting up stuff
+   
+   //setuped
+   stationMode = 2;
+  }else if (stationMode == 2){
+    //transferring information
+    Serial.print(myData.code);
+    Serial.print(" ");
+    Serial.print (myData.x1);
+    Serial.print (" ");
+    Serial.print (myData.y1);
+    Serial.print (" ");
+    Serial.print (myData.z1);
+    Serial.print (" ");
+    Serial.print (myData.x2);
+    Serial.print (" ");
+    Serial.print (myData.y2);
+    Serial.print (" ");
+    Serial.println (myData.z2);
   }
-   if (Serial.available() > 0) {
-    // read the incoming byte:
-    stationMode = 2
-   }
   
 }

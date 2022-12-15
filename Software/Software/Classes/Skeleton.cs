@@ -14,6 +14,7 @@ namespace Software.Classes
         Bone ArmUp;
         Bone ArmDown;
 
+        public bool isReady;
 
         public Skeleton(Controller c)
         {
@@ -31,7 +32,12 @@ namespace Software.Classes
 
             return bones[boneIndex];
         }
-        public int setupBone(int boneIndex, Sensor s, Bone b = null )
+        public int Reset()
+        {
+            isReady = false;
+            return 0;
+        }
+        public int setupBone(int boneIndex, Sensor s, Bone b )
         {
             if (boneIndex > bones.Count - 1)
             {
@@ -40,6 +46,7 @@ namespace Software.Classes
 
             bones[boneIndex].ConnctedSensor = s;
             bones[boneIndex].parentBone = b;
+            isReady = true;
             return 0;
         }
         public void Calculate()

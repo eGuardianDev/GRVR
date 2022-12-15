@@ -1,9 +1,12 @@
 ﻿using Avalonia.Collections;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReactiveUI;
+using SkiaSharp;
 using Software.Classes;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Dynamic;
+using System.IO.Ports;
 using System.Linq;
 using System.Reactive;
 using System.Threading;
@@ -13,23 +16,73 @@ namespace Software.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private string doge = "";
-        public string Doge { get => doge;
-            set => this.RaiseAndSetIfChanged(ref doge, value);
-        }
-        private AvaloniaList<Sensor> sensors = new AvaloniaList<Sensor>();
-        public AvaloniaList<Sensor> sens
+        Controller backend;
+
+        private List<string> ports;
+        public List<string> Ports
         {
-            get => sensors;
-            set
-            {
-                sensors = value;
-                this.RaiseAndSetIfChanged(ref sensors, value);
-               
-            }
+            get => ports;
+            set => this.RaiseAndSetIfChanged(ref ports, value);
+
+
+        }
+        
+        private string selectedPort;
+        public string SelectedPort
+        {
+            get => selectedPort;
+            set => this.RaiseAndSetIfChanged(ref selectedPort, value);
+
+
         }
 
-        //One of the first thing that starts when the program is ran
+        private string stationStatus = "Offline";
+        public string StationStatus
+        {
+            get => stationStatus;
+            set => this.RaiseAndSetIfChanged(ref stationStatus, value);
+        }       
+        private string statusColor = "Red";
+        public ICommand ConnectToStation { get; }
+        public void connectToStation()
+        {
+            backend.station.CommunicationPort = selectedPort;
+            Logger.Log(selectedPort.ToString());
+            backend.station.Connect();
+        }
+
+      
+        private ObservableCollection<Sensor> sensors = new ObservableCollection<Sensor>();
+        public ObservableCollection<Sensor> sens
+        {
+            get => sensors;
+            set => this.RaiseAndSetIfChanged(ref sensors, value);
+        }
+
+        private Sensor device = new Sensor();
+        public Sensor SelectedDevice
+        {
+            get => device;
+            set => this.RaiseAndSetIfChanged(ref device, value);
+        }
+        
+        private string newSensorName = "Untitled";
+        public string NewSensorName
+        {
+            get => newSensorName;
+            set => this.RaiseAndSetIfChanged(ref newSensorName, value);
+        } 
+        public string StatusColor { get => statusColor;
+            set => this.RaiseAndSetIfChanged(ref statusColor, value);
+        }
+        public ICommand SaveSensorName { get; }
+        public void saveSensorName()
+        {
+            SelectedDevice.Name = NewSensorName;
+        }
+        
+        
+     
         public MainWindowViewModel(){
 
             //start main procces controlls
@@ -37,21 +90,22 @@ namespace Software.ViewModels
             
             //Setup button commands
             ShowLogs = ReactiveCommand.Create(LogsSpawn);
+            ConnectToStation = ReactiveCommand.Create(connectToStation);
         }
 
 
         public ICommand ShowLogs{ get; }
-
-        //Show console
         public void LogsSpawn()
         {
+            
             Logger.ShowHide();
         }
+        //Show console
         //Starting background proccesses that will be used for connecting to the station
         public void StartBackgroundProccess()
         {
-            Controller c = new Controller(this);
-            Thread t = new Thread(c.Setup);
+            backend = new Controller(this);
+            Thread t = new Thread(backend.Setup);
             t.IsBackground = true;
             t.Start();
         }
