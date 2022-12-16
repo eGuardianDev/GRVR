@@ -28,7 +28,6 @@ namespace Software.Classes
 
 
         }
-
         public int CreateAPI()
         {
             api = new API(8585);
@@ -85,7 +84,7 @@ namespace Software.Classes
                     Logger.Warn("Station is found offline");
                     Logger.Warn("Reseting the skeleton");
                     skeleton.Reset();
-                    station.Reset();
+                    station.Clean();
                     vm.sens.Clear();
                 }
                 // If the station is connected, but the skeleton isn't ready

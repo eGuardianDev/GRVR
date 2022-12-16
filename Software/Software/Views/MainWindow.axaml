@@ -38,20 +38,20 @@
 							<ColumnDefinition Width="90"></ColumnDefinition>
 							<ColumnDefinition Width="100"></ColumnDefinition>
 						</Grid.ColumnDefinitions>
-						
+
 						<TextBlock Grid.Column="0" Text="Station Status: " />
 
 						<TextBlock Grid.Column="1" Foreground="{Binding StatusColor}" Text="{Binding StationStatus}" />
-						
-							<ComboBox Grid.Column="2" Items="{Binding Ports}" SelectedItem="{Binding SelectedPort}">
+
+						<ComboBox Grid.Column="2" Items="{Binding Ports}" SelectedItem="{Binding SelectedPort}">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding }" FontFamily="{Binding}" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>
-						
-						<Button Grid.Column="3" Command="{Binding ConnectToStation}" Content="Connect" />
+
+						<Button Grid.Column="3" Command="{Binding ConnectToStation}" Content="{Binding ButtonForConnectingText}" />
 
 					</Grid>
 
@@ -62,7 +62,7 @@
 			<TabItem>
 
 				<TabItem.Header>
-					<TextBlock VerticalAlignment="Center">Sensors</TextBlock>
+					<TextBlock VerticalAlignment="Center">Sensors|Controllers</TextBlock>
 				</TabItem.Header>
 
 				<StackPanel>
@@ -126,7 +126,7 @@
 							<Button HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Command="{Binding SaveSensorName}" >
 								Save
 							</Button>
-							<Button HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" >Reset Rot</Button>
+							<Button HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Command="{Binding CalibrateSensors}" >Reset Rot</Button>
 							<Button HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" >Save configuration</Button>
 						</Grid>
 					</StackPanel>
@@ -139,9 +139,44 @@
 					<TextBlock VerticalAlignment="Center">Calibration</TextBlock>
 				</TabItem.Header>
 
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Square : " HorizontalAlignment="Left" VerticalAlignment="Center"/>
-					<Rectangle Fill="Blue" Width="63" Height="41"/>
+				<StackPanel Orientation="Horizontal" >
+					<Grid ShowGridLines="True" >
+
+						<Grid.RowDefinitions>
+							<RowDefinition Height="50"></RowDefinition>
+							<RowDefinition Height="75"></RowDefinition>
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="50"></ColumnDefinition>
+							<ColumnDefinition Width="50"></ColumnDefinition>
+							<ColumnDefinition Width="50"></ColumnDefinition>
+							<ColumnDefinition Width="50"></ColumnDefinition>
+							<ColumnDefinition Width="50"></ColumnDefinition>
+						</Grid.ColumnDefinitions>
+						<Border Grid.Row="0" Grid.Column="3" Width="45" Height="45" Background="LightGray">
+							<Border.Styles>
+								<Style Selector="Border">
+									<Setter Property="RenderTransform" Value="rotate(0deg)"/>
+								</Style>
+							</Border.Styles>
+						</Border>
+						<Border Grid.Row="1" Grid.Column="1" Width="45" Height="25" Background="LightGray">
+							<Border.Styles>
+								<Style Selector="Border">
+									<Setter Property="RenderTransform" Value="rotate(0deg)"/>
+								</Style>
+							</Border.Styles>
+						</Border>
+						<Border Grid.Row="1" Grid.Column="2" Width="45" Height="25" Background="LightGray">
+							<Border.Styles>
+								<Style Selector="Border">
+									<Setter Property="RenderTransform" Value="rotate(0deg)"/>
+								</Style>
+							</Border.Styles>
+						</Border>
+						
+						
+					</Grid>
 				</StackPanel>
 
 			</TabItem>

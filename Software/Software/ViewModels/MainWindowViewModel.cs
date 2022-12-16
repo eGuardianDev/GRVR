@@ -35,6 +35,15 @@ namespace Software.ViewModels
 
 
         }
+        
+        private string buttonForConnectingText = "Connect";
+        public string ButtonForConnectingText
+        {
+            get => buttonForConnectingText;
+            set => this.RaiseAndSetIfChanged(ref buttonForConnectingText, value);
+
+
+        }
 
         private string stationStatus = "Offline";
         public string StationStatus
@@ -46,9 +55,19 @@ namespace Software.ViewModels
         public ICommand ConnectToStation { get; }
         public void connectToStation()
         {
-            backend.station.CommunicationPort = selectedPort;
-            Logger.Log(selectedPort.ToString());
-            backend.station.Connect();
+            if (selectedPort == null) return;
+            if (backend.station.IsStationOnline)
+            {
+                ButtonForConnectingText = "Connect";
+                backend.station.Disconnect();
+            }
+            else
+            {
+                backend.station.CommunicationPort = selectedPort;
+                Logger.Log($"Connecting to station with port: {selectedPort.ToString()}");
+                ButtonForConnectingText = "Disonnect";
+                backend.station.Connect();
+            }
         }
 
       
@@ -78,11 +97,29 @@ namespace Software.ViewModels
         public ICommand SaveSensorName { get; }
         public void saveSensorName()
         {
+            if (SelectedDevice.Name == "Unnamed 0")
+            {
+                Logger.Log("No sensor selected");
+                return;
+            }
             SelectedDevice.Name = NewSensorName;
         }
-        
-        
-     
+
+
+
+        public ICommand CalibrateSensors { get; }
+        public void calibrateSensors()
+        {
+            if (SelectedDevice.Name == "Unnamed 0")
+            {
+                Logger.Log("No sensor selected");
+                return;
+            }
+            SelectedDevice.OffsetX = SelectedDevice.X;
+            SelectedDevice.OffsetY = SelectedDevice.Y;
+            SelectedDevice.OffsetZ = SelectedDevice.Z;
+        }
+
         public MainWindowViewModel(){
 
             //start main procces controlls
@@ -91,6 +128,8 @@ namespace Software.ViewModels
             //Setup button commands
             ShowLogs = ReactiveCommand.Create(LogsSpawn);
             ConnectToStation = ReactiveCommand.Create(connectToStation);
+            SaveSensorName = ReactiveCommand.Create(saveSensorName);
+            CalibrateSensors = ReactiveCommand.Create(calibrateSensors);
         }
 
 

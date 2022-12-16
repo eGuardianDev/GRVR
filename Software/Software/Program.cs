@@ -15,8 +15,6 @@ namespace Software
         [STAThread]
         public static void Main(string[] args)
         {
-            Console.Beep();
-
             // Wait for the event
    
             SetupConsole();

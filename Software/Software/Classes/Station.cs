@@ -13,6 +13,9 @@ namespace Software.Classes
     {
         SerialPort Comms;
         Controller control;
+        public List<Sensor> Sensors;
+
+
         private string communicationPort; //usb port
         public string CommunicationPort
         {
@@ -20,7 +23,9 @@ namespace Software.Classes
             set { this.communicationPort = value; }
 
         }
+        
         private int speed;
+        
         public bool AreSensorsReady
         {
             get
@@ -33,7 +38,7 @@ namespace Software.Classes
             }
         }
         public bool IsStationOnline { get { return this.Comms.IsOpen; } }
-        public List<Sensor> Sensors;
+      
         public Station(Controller l, string comPort, int comSpeed)
         {
             Logger.Log("New station class was created.");
@@ -45,11 +50,19 @@ namespace Software.Classes
             this.speed = comSpeed;
             Comms = new SerialPort(CommunicationPort, speed);
         }
+        
         public int Connect()
         {
             Logger.Info("Attempting to connect to stations.");
             Thread t = new Thread(new ThreadStart(connectingThread));
             t.Start();
+            return 0;
+        }
+        public int Disconnect()
+        {
+            Logger.Info("Disconnecting from stations.");
+            Comms.Close();
+            Clean();
             return 0;
         }
         public int Clean()
@@ -76,8 +89,8 @@ namespace Software.Classes
             {
 
                 Logger.Error("Station cannot connected on current port. Check port, cable or other program using the same port");
-                Comms.Close();
-                Reset();
+                Disconnect();
+                return;
             }
 
             if (IsStationOnline)
@@ -86,11 +99,7 @@ namespace Software.Classes
                 Comms.DataReceived += new SerialDataReceivedEventHandler(sp_DataReceived);
             }
         }
-        public int Reset()
-        {
-            Sensors.Clear();
-            return 0;
-        }
+      
         //Called every time new information is received
         void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -135,26 +144,19 @@ namespace Software.Classes
             // ask for sensors
             // initilize
         }
-        public int AddSensor(int id)
+        public void AddSensor(int id)
         {
             //Error handle
             if (id < 0)
             {
                 Logger.Error("Cannot initilize sensor with negative id. || Check for sensor firmware corruption or communcation problems.");
-                return 1;
-                //throw new ArgumentException("Sensor id cannot be negative");
+                return;
             }
-            // if (Sensors.Any(s => s.ID == id))
-            //  {
-            //       Logger.Warn($"Sensor with id {id} already registered in the system.");
-            //       return 2;
-            //   }
             Logger.Info($"New sensor id : {id}");
             var sen = new Sensor(id);
             Sensors.Add(sen);
             control.addToUI(sen);
-            //  Logger.Info(Sensors.First().X.ToString()) ;
-            return 0;
+            return;
         }
         public Sensor GetSensor(int number)
         {
