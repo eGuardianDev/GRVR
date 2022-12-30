@@ -79,17 +79,17 @@ void SendEuler(int32_t *quat, uint16_t SpamDelay = 100) {
     mpu.ConvertToDegrees(ypr, xyz);
    
 
-  digitalWrite(14, !digitalRead(14));
-  digitalWrite(12, !digitalRead(12)); 
-   if(digitalRead(14) == HIGH){
+ // digitalWrite(14, !digitalRead(14));
+ // digitalWrite(12, !digitalRead(12)); 
+  // if(digitalRead(14) == HIGH){
     activeMPU = 0; 
    
     myData.x1 =  xyz[0];
     myData.y1 =  xyz[1] ;
     myData.z1 =  xyz[2] ;
    }
-  else if(digitalRead(12) == HIGH) {
-      activeMPU = 1; 
+ // else if(digitalRead(12) == HIGH) {
+ //     activeMPU = 1; 
     
     
     myData.x2 =  xyz[0];
@@ -99,10 +99,10 @@ void SendEuler(int32_t *quat, uint16_t SpamDelay = 100) {
 
     esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
 
-    }
+   // }
     
   }
-}
+
     uint32_t Freq = 0;
 
 //some board information
@@ -146,9 +146,9 @@ void setup() {
   mpu.CalibrateMPU().load_DMP_Image();// Does it all for you with Calibration
 
  // Calibration gyro 2
-  digitalWrite(14, LOW);
-  digitalWrite(12, HIGH);
-  mpu.CalibrateMPU().Enable_Reload_of_DMP(Three_Axis_Quaternions).load_DMP_Image();// Does it all for you with Calibration
+ // digitalWrite(14, LOW);
+ // digitalWrite(12, HIGH);
+ // mpu.CalibrateMPU().Enable_Reload_of_DMP(Three_Axis_Quaternions).load_DMP_Image();// Does it all for you with Calibration
   
   //What to do when information is received
   mpu.on_FIFO(print_Values);

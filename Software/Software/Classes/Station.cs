@@ -67,6 +67,7 @@ namespace Software.Classes
         }
         public int Clean()
         {
+            Sensors.Clear();
             Comms.Close();
             return 0;
         }

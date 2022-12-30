@@ -86,12 +86,14 @@ namespace Software.Classes
                     skeleton.Reset();
                     station.Clean();
                     vm.sens.Clear();
+                    Logger.Log($"{station.IsStationOnline} {skeleton.isReady}");
+                    Thread.Sleep(100);
                 }
                 // If the station is connected, but the skeleton isn't ready
                 // setup the skeelton
 
                 // ! this is temporary, need to change the bones setup;
-                if (!skeleton.isReady && station.AreSensorsReady)
+                if (!skeleton.isReady && station.IsStationOnline && station.AreSensorsReady)
                 {
                     Logger.Log("Setting up the skeleton");
                     skeleton.setupBone(0, station.GetSensor(0), null);

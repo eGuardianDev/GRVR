@@ -35,6 +35,7 @@ namespace Software.Classes
         public int Reset()
         {
             isReady = false;
+            Logger.Log("Reset skeleton!");
             return 0;
         }
         public int setupBone(int boneIndex, Sensor s, Bone b )

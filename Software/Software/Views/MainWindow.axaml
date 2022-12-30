@@ -13,37 +13,75 @@
 	<Design.DataContext>
 		<vm:MainWindowViewModel/>
 	</Design.DataContext>
+	<Window.Styles>
 
+		<Style Selector="TabControl">
+			<Setter Property="Background" Value="#f5f5f5"/>
+			<Setter Property="Height" Value="475"/>
+		</Style>
+		<Style Selector="TabControl WrapPanel">
+			<Setter Property="Background" Value="#eaeaea"/>
+		</Style>
+
+		<Style Selector="TabItem">
+			<Setter Property="FontSize" Value="12"/>
+			<Setter Property="Height" Value="34"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Background" Value="#eaeaea"/>
+			<Setter Property="FontSize" Value="15"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="Foreground" Value="Black"/>
+			<Setter Property="Margin" Value="0 0 0 0"/>
+			<Setter Property="Padding" Value="10 0"/>
+		</Style>
+
+		<Style Selector="TabItem:focus">
+			<Setter Property="Foreground" Value="#f0f0f0"/>
+			<Setter Property="Margin" Value="0 0 0 0"/>
+			<Setter Property="Background" Value="#f5f5f5"/>
+			<Setter Property="Padding" Value="10 0"/>
+		</Style>
+
+		<Style Selector="TabItem:selected">
+			<Setter Property="Foreground" Value="Black"/>
+			<Setter Property="Margin" Value="0 0 0 0"/>
+			<Setter Property="Padding" Value="10"/>
+		</Style>
+		<Style Selector="TabItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Background" Value="#f0f0f0"/>
+		</Style>
+
+	</Window.Styles>
 	<StackPanel>
-		<TabControl>
+		<TabControl >
 
-			<TabItem VerticalContentAlignment="Center">
+			<TabItem  VerticalContentAlignment="Center">
 				<TabItem.Header>
 					<TextBlock VerticalAlignment="Center">Home</TextBlock>
 				</TabItem.Header>
 
-				<StackPanel>
+				<StackPanel >
 					<TextBlock Text="{Binding Doge} " HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-					<TextBlock Text="Welcome to GRVR. " HorizontalAlignment="Left" VerticalAlignment="Center"/>
-					<TextBlock Text="Here you can control the hardware and how it's implemented " HorizontalAlignment="Left" VerticalAlignment="Center"/>
+					<TextBlock Text="Welcome to GRVR " Padding="0 80 0 40" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBlock  FontSize="16" Text=" &#60; Middle driver and system control >" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 					<Button Command="{Binding ShowLogs}">Logs</Button>
-					<Grid ShowGridLines="False">
+					<Grid HorizontalAlignment="Center" ShowGridLines="False">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*"></RowDefinition>
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="100"></ColumnDefinition>
 							<ColumnDefinition Width="50"></ColumnDefinition>
-							<ColumnDefinition Width="90"></ColumnDefinition>
+							<ColumnDefinition Width="100"></ColumnDefinition>
 							<ColumnDefinition Width="100"></ColumnDefinition>
 						</Grid.ColumnDefinitions>
 
-						<TextBlock Grid.Column="0" Text="Station Status: " />
+						<TextBlock VerticalAlignment="Center" Grid.Column="0" Text="Station Status: " />
 
-						<TextBlock Grid.Column="1" Foreground="{Binding StatusColor}" Text="{Binding StationStatus}" />
+						<TextBlock VerticalAlignment="Center" Grid.Column="1" Foreground="{Binding StatusColor}" Text="{Binding StationStatus}" />
 
-						<ComboBox Grid.Column="2" Items="{Binding Ports}" SelectedItem="{Binding SelectedPort}">
+						<ComboBox VerticalAlignment="Center" Width="90" Grid.Column="2" Items="{Binding Ports}" SelectedItem="{Binding SelectedPort}">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding }" FontFamily="{Binding}" />
@@ -66,9 +104,9 @@
 				</TabItem.Header>
 
 				<StackPanel>
-					<StackPanel Width="500" Height="350">
-
-						<ScrollViewer MaxHeight="350" >
+					<StackPanel Width="500" Height="375">
+						<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 110" Text="No sensors were found"></TextBlock>
+						<ScrollViewer MaxHeight="300" Background="#f3f3f3" >
 							<ListBox Items="{Binding sens}"
 							SelectedItem="{Binding SelectedDevice}"
 							SelectionMode="Single ">
@@ -97,37 +135,42 @@
 
 
 					<StackPanel  HorizontalAlignment="Left">
+
+
+						<TextBlock HorizontalAlignment="Left"  Grid.Row="0" Grid.Column="0">
+							<TextBlock.Text>
+								<MultiBinding StringFormat="{}{0} X: {1} Y: {2} Z: {3}">
+									<Binding Path="SelectedDevice.ID" />
+									<Binding Path="SelectedDevice.X" />
+									<Binding Path="SelectedDevice.Y" />
+									<Binding Path="SelectedDevice.Z" />
+									<Binding Path="SelectedDevice.Name" />
+								</MultiBinding>
+							</TextBlock.Text>
+						</TextBlock>
+						
+							
 						<Grid ShowGridLines="False">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="auto"></RowDefinition>
+								<RowDefinition Height="auto"></RowDefinition>
 							</Grid.RowDefinitions>
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="125"></ColumnDefinition>
-								<ColumnDefinition Width="100"></ColumnDefinition>
 								<ColumnDefinition Width="100"></ColumnDefinition>
 								<ColumnDefinition Width="60"></ColumnDefinition>
+								<ColumnDefinition Width="100"></ColumnDefinition>
+								<ColumnDefinition Width="auto"></ColumnDefinition>
 								<ColumnDefinition Width="150"></ColumnDefinition>
 							</Grid.ColumnDefinitions>
 
-							<TextBlock HorizontalAlignment="Center"  Grid.Row="0" Grid.Column="0">
-								<TextBlock.Text>
-									<MultiBinding StringFormat="{}{0} X: {1} Y: {2} Z: {3}">
-										<Binding Path="SelectedDevice.ID" />
-										<Binding Path="SelectedDevice.X" />
-										<Binding Path="SelectedDevice.Y" />
-										<Binding Path="SelectedDevice.Z" />
-										<Binding Path="SelectedDevice.Name" />
-									</MultiBinding>
-								</TextBlock.Text>
-							</TextBlock>
 
-							<TextBox HorizontalAlignment="Center" MinWidth="100" Grid.Row="0" Grid.Column="1" MaxWidth="150" Text="{Binding NewSensorName}">
+							<TextBox HorizontalAlignment="Center" MinWidth="100" Grid.Row="1" Grid.Column="0" MaxWidth="150" Text="{Binding NewSensorName}">
 							</TextBox>
-							<Button HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Command="{Binding SaveSensorName}" >
+							<Button HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" Command="{Binding SaveSensorName}" >
 								Save
 							</Button>
-							<Button HorizontalAlignment="Center" Grid.Row="0" Grid.Column="3" Command="{Binding CalibrateSensors}" >Reset Rot</Button>
-							<Button HorizontalAlignment="Center" Grid.Row="0" Grid.Column="4" >Save configuration</Button>
+							<Button HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Command="{Binding CalibrateSensors}" >Reset Rot</Button>
+							<Button HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3" >Save configuration</Button>
 						</Grid>
 					</StackPanel>
 				</StackPanel>
@@ -174,14 +217,15 @@
 								</Style>
 							</Border.Styles>
 						</Border>
-						
-						
+
+
 					</Grid>
 				</StackPanel>
 
 			</TabItem>
 
 		</TabControl>
+
 	</StackPanel>
 
 </Window>
