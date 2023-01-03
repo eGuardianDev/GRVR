@@ -20,6 +20,8 @@ Maybe a inverse kenematics algorithms can be introduced, which will allow one po
 ||MPU6050| |Panda3d|
 ||c++| C#| C++ & Python|
 
-<h2> Documentation
-</h2>
-[Link](https://github.com/eGuardianDev/GRVR/wiki)
+
+## Documentation
+
+[Documentation](https://github.com/eGuardianDev/GRVR/wiki)
+
