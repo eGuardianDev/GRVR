@@ -1,17 +1,25 @@
+<div align="center" display="inline">
+  <h1>Gyroscope Tracking (in) Virtual Reality</h1>
 
-#  Gyroscope Tracking (in) Virtual Reality
+<h3>This project allows you to track points in 3d invieroment using gyroscopes.</h3>
 
-This projects allows you to track you body in 3D enviroment. This is usefull when playing VR games ( the main target ), 
-trying to animate something for games or movies, tracking sport stats or anything else.
+<h4>This allows to track your body. Uses can be found in VR Gaming, AR interfaces, sport and physical tracking, Location tracking
+</h4>
+</div>
 
+<h5>   This only problem is that each point need to be connected to another to have tracking.
+Maybe a inverse kenematics algorithms can be introduced, which will allow one point to be skipped, but this can introduce wrong estimations for the positions of points.
+</h5>
 
-## Tech Stack
+<br/>
+<h2> Tech Stack </h2>
 
-**Hardware:** ESP8266, MPU6050
+||Hardware|Software|Additional|
+|:---:|:---:|:---:|:---:|
+||ESP8266|AvaloniaUI|SteamVR|
+||MPU6050| |Panda3d|
+||c++| C#| C++ & Python|
 
-**Firmware:** C++
-
-**Software:** C#, Avalonia UI, dotNet
-
-**Programs Used:** Arduino IDE, VS 2022, FreeCAD
-
+<h2> Documentation
+</h2>
+[Link](https://github.com/eGuardianDev/GRVR/wiki)
