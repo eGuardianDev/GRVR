@@ -1,0 +1,17 @@
+
+
+.Introduction{
+position:absolute;
+    text-align: center;
+    top:5;
+    left:25vw;
+    right:25vw;
+    top:25vh;
+}
+
+.OpenSourceText{
+position: absolute;
+top:125vh;
+left:25vv;
+right:25vw;
+}
