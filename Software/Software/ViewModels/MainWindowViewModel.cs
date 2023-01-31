@@ -1,7 +1,9 @@
 ﻿using Avalonia.Collections;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReactiveUI;
-using Software.Classes;
+using Software.Classes.Controllers;
+using Software.Classes.DataLoggin;
+using Software.Classes.DataStructure;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;

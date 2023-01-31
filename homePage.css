@@ -1,17 +1,29 @@
 
 
 .Introduction{
-position:absolute;
+    position:absolute;
     text-align: center;
-    top:5;
-    left:25vw;
-    right:25vw;
+    left:15vw;
+    right:15vw;
     top:25vh;
+    background-color: rgba(255, 32, 32, 0.253);
+
 }
 
+
+.Introduction h1{
+    font-size: 8.4vh;;
+}
+        
 .OpenSourceText{
-position: absolute;
-top:125vh;
-left:25vv;
-right:25vw;
+    position: absolute;
+    top:125vh;
+    width: 100%;
+    }
+  
+.OpenSourceText div{
+    padding:4vh;
+}
+.definedBetter{
+    background-color: rgba(255, 255, 255, 0.068);
 }
