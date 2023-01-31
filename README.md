@@ -9,6 +9,11 @@
 
 
 <br/>
+<h2>Todo:</h2>
+- [ ] Detection Of Rotation
+- [ ] Controllers
+- [ ] Movement algorithm
+
 <h2> Tech Stack </h2>
 
 ||Hardware|Software|Additional|
