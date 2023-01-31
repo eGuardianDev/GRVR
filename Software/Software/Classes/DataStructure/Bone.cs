@@ -72,7 +72,7 @@ namespace Software.Classes
 
         public Bone(Bone parent = null, float lenght = 2)
         {
-            Logger.Info("New bone was created.");
+            Logger.Info("Bone created!");
             this.parentBone = parent;
             this.Lenght = lenght;
 
