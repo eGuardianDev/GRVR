@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Software.Classes
+namespace Software.Classes.DataLoggin
 {
     abstract class Logger
     {
@@ -29,7 +29,7 @@ namespace Software.Classes
         public static void ShowHide()
         {
             var handle = GetConsoleWindow();
-          
+
             ShowWindow(handle, SW_SHOW);
 
             Info("IF YOU CLOSE THE CONSOLE, THE WHOLE APPLICATION WILL CLOSE!");
@@ -56,7 +56,7 @@ namespace Software.Classes
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write($" ({DateTime.Now:HH:mm:ss}) ");
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write ("[Info] ");
+            Console.Write("[Info] ");
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($" {information}");

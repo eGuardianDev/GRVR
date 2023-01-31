@@ -4,8 +4,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Software.Classes.Controllers;
+using Software.Classes.DataLoggin;
 
-namespace Software.Classes
+namespace Software.Classes.DataStructure
 {
     public class Skeleton
     {
@@ -25,17 +27,18 @@ namespace Software.Classes
         }
         public Bone GetBone(int boneIndex = 0)
         {
-            if (boneIndex > bones.Count - 1) { 
+            if (boneIndex > bones.Count - 1)
+            {
                 Logger.Error("Out of bound bone selection"); return null;
             }
 
             return bones[boneIndex];
         }
-        public int setupBone(int boneIndex, Sensor s, Bone b = null )
+        public int setupBone(int boneIndex, Sensor s, Bone b = null)
         {
             if (boneIndex > bones.Count - 1)
             {
-                Logger.Error("Out of bound bone selection");  return 1;
+                Logger.Error("Out of bound bone selection"); return 1;
             }
 
             bones[boneIndex].ConnctedSensor = s;
@@ -46,7 +49,7 @@ namespace Software.Classes
         {
             foreach (var bone in bones)
             {
-               // Logger.Log($"{bone.Rot.X}");
+                // Logger.Log($"{bone.Rot.X}");
                 bone.Calculate();
             }
         }

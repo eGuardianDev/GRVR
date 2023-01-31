@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Software.Classes
+namespace Software.Classes.DataStructure
 {
     public class Sensor
     {
@@ -14,10 +14,10 @@ namespace Software.Classes
         private double y;
         private double z;
 
-        public double X { get { return x; }  set { x = value; } }
-        public double Y { get { return y; }  set { y = value; } }
-        public double Z { get { return z; }  set { z = value; } }
-        public int ID { get { return id; }  set { this.id = value; }}
+        public double X { get { return x; } set { x = value; } }
+        public double Y { get { return y; } set { y = value; } }
+        public double Z { get { return z; } set { z = value; } }
+        public int ID { get { return id; } set { id = value; } }
 
         public Sensor(int id = 0)
         {

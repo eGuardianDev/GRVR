@@ -1,10 +1,11 @@
 ﻿using Avalonia.Controls.Platform;
 using JetBrains.Annotations;
+using Software.Classes.DataLoggin;
 using System;
 using System.Diagnostics;
 using System.Reflection.Emit;
 
-namespace Software.Classes
+namespace Software.Classes.DataStructure
 {
     public class Bone
     {
@@ -38,16 +39,16 @@ namespace Software.Classes
         private Sensor connectedSensor;
         public Sensor ConnctedSensor
         {
-            get { return this.connectedSensor; }
-            set { this.connectedSensor = value; }
+            get { return connectedSensor; }
+            set { connectedSensor = value; }
         }
 
         //lenght of the bone. Used to caculate end of the bone
         private float lenght;
         public float Lenght
         {
-            set { this.lenght = value; }
-            get { return this.lenght; }
+            set { lenght = value; }
+            get { return lenght; }
         }
 
         public struct Position
@@ -73,8 +74,8 @@ namespace Software.Classes
         public Bone(Bone parent = null, float lenght = 2)
         {
             Logger.Info("New bone was created.");
-            this.parentBone = parent;
-            this.Lenght = lenght;
+            parentBone = parent;
+            Lenght = lenght;
 
 
         }
@@ -95,7 +96,7 @@ namespace Software.Classes
 
             // -- calculate 2D --
             double deg = Rot.Y;
-            
+
             double sin = Math.Sin(deg * Math.PI / 180);
             double cos = Math.Cos(deg * Math.PI / 180);
             sin = Math.Round(sin, 2);
@@ -109,7 +110,7 @@ namespace Software.Classes
 
             // -- add 3th demension -- 
             double z = 0;
-            double alpha = Math.Abs( Rot.X);
+            double alpha = Math.Abs(Rot.X);
 
             sin = Math.Sin(alpha * Math.PI / 180);
             cos = Math.Cos(alpha * Math.PI / 180);
@@ -127,7 +128,7 @@ namespace Software.Classes
                else x -= z;
 
             */
-            if ((x < 0 &&(Rot.X < 90 && Rot.X > -90) )|| (x>0 && Rot.X <-90))
+            if (x < 0 && Rot.X < 90 && Rot.X > -90 || x > 0 && Rot.X < -90)
             {
                 x = -x;
             }
@@ -140,9 +141,9 @@ namespace Software.Classes
 
 
             //end savings
-            EndPos.X = StartPos.X + (x * Lenght);
-            EndPos.Y = StartPos.Y + (y * Lenght);
-            EndPos.Z = StartPos.Z + (z * Lenght);
+            EndPos.X = StartPos.X + x * Lenght;
+            EndPos.Y = StartPos.Y + y * Lenght;
+            EndPos.Z = StartPos.Z + z * Lenght;
             return 0;
         }
     }

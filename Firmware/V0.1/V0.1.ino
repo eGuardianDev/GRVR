@@ -24,7 +24,6 @@ const char *host = "192.168.0.103";
 #define Six_Axis_Quaternions 6  // Default
 Simple_MPU6050 mpu(Six_Axis_Quaternions);
 
-String macAdress;
 #define NumberOfMPUs 2
 
 WiFiClient client;
@@ -39,14 +38,7 @@ WiFiClient client;
 String data;
 void SendEuler(int32_t *quat, uint16_t SpamDelay = 100) {
     
-   //check connections
-    if (!client.connect(host, port))
-    {
-        Serial.println("Connection to host failed");
-        delay(100);
-        return;
-    }
-
+  
 
   //caculate angles
   Quaternion q;
@@ -64,14 +56,14 @@ void SendEuler(int32_t *quat, uint16_t SpamDelay = 100) {
   digitalWrite(12, !digitalRead(12)); 
    if(digitalRead(14) == HIGH){
     activeMPU = 0; 
-    data = macAdress + " " + activeMPU + " " + String( xyz[0 ] )+ " " +  String(xyz[1] )+ " " +  String(xyz[2]) ;
+    data =  activeMPU + " " + String( xyz[0 ] )+ " " +  String(xyz[1] )+ " " +  String(xyz[2]) ;
    
    }
   else if(digitalRead(12) == HIGH) {
       activeMPU = 1; 
     
     data.concat( " " + String(activeMPU)+ " " + String( xyz[0 ] )+ " " +  String(xyz[1] )+ " " +  String(xyz[2])) ;
-     client.println(data);
+     Serial.println(data);
 
     }
     
@@ -89,7 +81,6 @@ void print_Values (int16_t *gyro, int16_t *accel, int32_t *quat) {
 void printBoardInformation(){
   if(!Serial) {return;}
   Serial.print("ESP Board MAC Address:  ");
-  Serial.println(macAdress);
   Serial.print("Active MPUs: ");
   Serial.println(NumberOfMPUs);
 }
@@ -103,18 +94,8 @@ void setup()
   while (!Serial); 
 
   Serial.print("Connecting...\n");
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(NetworkData :: GetNetworkName(),NetworkData :: GetNetworkPass());
-  while (WiFi.status() != WL_CONNECTED)
-  {
-      delay(500);
-      Serial.print(".");
-  }
+ 
   Serial.println("\n Successful Connected to the internet.");
-
-  Serial.println("Board information:");
-  printBoardInformation();
-
   //Netowork is ready to be used;
 
 
