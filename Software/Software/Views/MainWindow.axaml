@@ -6,7 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
         x:Class="Software.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="GRVR Driver"
+        Title="GRVR Driver - Demo/Debug"
 		Height="500" Width="600"
 		MaxHeight="500" MaxWidth="600">
 
@@ -65,12 +65,13 @@
 
 					<TextBlock Text="Welcome to GRVR " Padding="0 80 0 40" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 					<TextBlock  FontSize="16" Text=" &#60; Middle driver and system control >" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<Button Command="{Binding ShowLogs}">Logs</Button>
+
+					<!--	<Button Command="{Binding ShowLogs}">Logs</Button> -->
 					<Grid HorizontalAlignment="Center" ShowGridLines="False">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*"></RowDefinition>
 						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
+						<Grid.ColumnDefinitions> 
 							<ColumnDefinition Width="100"></ColumnDefinition>
 							<ColumnDefinition Width="50"></ColumnDefinition>
 							<ColumnDefinition Width="100"></ColumnDefinition>
@@ -105,7 +106,7 @@
 
 				<StackPanel>
 					<StackPanel Width="500" Height="375">
-						<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 110" Text="No sensors were found"></TextBlock>
+						<TextBlock IsVisible="{Binding AreSensorsLoaded}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 110" Text="No sensors were found"></TextBlock>
 						<ScrollViewer MaxHeight="300" Background="#f3f3f3" >
 							<ListBox Items="{Binding sens}"
 							SelectedItem="{Binding SelectedDevice}"
@@ -118,9 +119,9 @@
 												<TextBlock.Text>
 													<MultiBinding StringFormat="{}{0} X: {1} Y: {2} Z: {3}">
 														<Binding Path="Name" />
-														<Binding Path="X" />
-														<Binding Path="Y" />
-														<Binding Path="Z" />
+														<Binding Path="FinalX" />
+														<Binding Path="FinalY" />
+														<Binding Path="FinalZ" />
 													</MultiBinding>
 												</TextBlock.Text>
 											</TextBlock>
@@ -183,11 +184,14 @@
 				</TabItem.Header>
 
 				<StackPanel Orientation="Horizontal" >
-					<Grid ShowGridLines="True" >
+					<Grid ShowGridLines="False" Margin="10 50 0 0 " >
 
 						<Grid.RowDefinitions>
 							<RowDefinition Height="50"></RowDefinition>
-							<RowDefinition Height="75"></RowDefinition>
+							<RowDefinition Height="50"></RowDefinition>
+							<RowDefinition Height="50"></RowDefinition>
+							<RowDefinition Height="50"></RowDefinition>
+							<RowDefinition Height="50"></RowDefinition>
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="50"></ColumnDefinition>
@@ -196,30 +200,76 @@
 							<ColumnDefinition Width="50"></ColumnDefinition>
 							<ColumnDefinition Width="50"></ColumnDefinition>
 						</Grid.ColumnDefinitions>
-						<Border Grid.Row="0" Grid.Column="3" Width="45" Height="45" Background="LightGray">
-							<Border.Styles>
-								<Style Selector="Border">
-									<Setter Property="RenderTransform" Value="rotate(0deg)"/>
-								</Style>
-							</Border.Styles>
-						</Border>
-						<Border Grid.Row="1" Grid.Column="1" Width="45" Height="25" Background="LightGray">
-							<Border.Styles>
-								<Style Selector="Border">
-									<Setter Property="RenderTransform" Value="rotate(0deg)"/>
-								</Style>
-							</Border.Styles>
-						</Border>
-						<Border Grid.Row="1" Grid.Column="2" Width="45" Height="25" Background="LightGray">
-							<Border.Styles>
-								<Style Selector="Border">
-									<Setter Property="RenderTransform" Value="rotate(0deg)"/>
-								</Style>
-							</Border.Styles>
-						</Border>
 
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="0 0" IsVisible="{Binding ActiveDisplayRow0[0]}" Grid.Row="0" Grid.Column="0" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="1 0" IsVisible="{Binding ActiveDisplayRow0[1]}" Grid.Row="0" Grid.Column="1" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="2 0" IsVisible="{Binding ActiveDisplayRow0[2]}" Grid.Row="0" Grid.Column="2" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="3 0" IsVisible="{Binding ActiveDisplayRow0[3]}" Grid.Row="0" Grid.Column="3" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="4 0" IsVisible="{Binding ActiveDisplayRow0[4]}" Grid.Row="0" Grid.Column="4" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="0 1" IsVisible="{Binding ActiveDisplayRow1[0]}" Grid.Row="1" Grid.Column="0" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="1 1" IsVisible="{Binding ActiveDisplayRow1[1]}" Grid.Row="1" Grid.Column="1" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="2 1" IsVisible="{Binding ActiveDisplayRow1[2]}" Grid.Row="1" Grid.Column="2" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="3 1" IsVisible="{Binding ActiveDisplayRow1[3]}" Grid.Row="1" Grid.Column="3" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="4 1" IsVisible="{Binding ActiveDisplayRow1[4]}" Grid.Row="1" Grid.Column="4" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="0 2" IsVisible="{Binding ActiveDisplayRow2[0]}" Grid.Row="2" Grid.Column="0" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="1 2" IsVisible="{Binding ActiveDisplayRow2[1]}" Grid.Row="2" Grid.Column="1" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="2 2" IsVisible="{Binding ActiveDisplayRow2[2]}" Grid.Row="2" Grid.Column="2" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="3 2" IsVisible="{Binding ActiveDisplayRow2[3]}" Grid.Row="2" Grid.Column="3" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="4 2" IsVisible="{Binding ActiveDisplayRow2[4]}" Grid.Row="2" Grid.Column="4" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="0 3" IsVisible="{Binding ActiveDisplayRow3[0]}" Grid.Row="3" Grid.Column="0" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="1 3" IsVisible="{Binding ActiveDisplayRow3[1]}" Grid.Row="3" Grid.Column="1" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="2 3" IsVisible="{Binding ActiveDisplayRow3[2]}" Grid.Row="3" Grid.Column="2" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="3 3" IsVisible="{Binding ActiveDisplayRow3[3]}" Grid.Row="3" Grid.Column="3" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="4 3" IsVisible="{Binding ActiveDisplayRow4[0]}" Grid.Row="4" Grid.Column="0" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="0 4" IsVisible="{Binding ActiveDisplayRow3[4]}" Grid.Row="3" Grid.Column="4" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="1 4" IsVisible="{Binding ActiveDisplayRow4[1]}" Grid.Row="4" Grid.Column="1" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="2 4" IsVisible="{Binding ActiveDisplayRow4[2]}" Grid.Row="4" Grid.Column="2" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="3 4" IsVisible="{Binding ActiveDisplayRow4[3]}" Grid.Row="4" Grid.Column="3" Width="45" Height="45" Background="LightGray"></Button>
+						<Button  Command="{Binding CurrentSensorSelected}" CommandParameter="4 4" IsVisible="{Binding ActiveDisplayRow4[4]}" Grid.Row="4" Grid.Column="4" Width="45" Height="45" Background="LightGray"></Button>
 
 					</Grid>
+
+					<StackPanel Margin="0 50 0 0">
+						<TextBlock HorizontalAlignment="Center" FontSize="20" FontWeight="Medium" >Current Selected Bone</TextBlock>
+						<TextBlock Padding="20 10 0 0" FontSize="18">Bone name</TextBlock>
+						<TextBlock Padding="40 0 0 0" FontSize="14" Foreground="Gray" Text="{Binding BoneName}"> </TextBlock>
+
+						<TextBlock Padding="20 10 0 0" FontSize="18">Bone parent's name</TextBlock>
+						<TextBlock Padding="40 0 0 0" FontSize="14" Foreground="Gray" Text="{Binding BoneParent}"> </TextBlock>
+
+						<TextBlock Padding="20 10 0 0" FontSize="18">Bone's sensor</TextBlock>
+						<TextBlock Padding="40 0 0 0" FontSize="14" Foreground="Gray" Text="{Binding ConectedSensorName}"> </TextBlock>
+
+
+						<TextBlock Padding="20 10 0 0" FontSize="18">Change bone's sensor:</TextBlock>
+					<ComboBox  VerticalAlignment="Center" Width="250" Items="{Binding sens}" SelectedItem="{Binding SelectedSensorToApply}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Name}" FontFamily="{Binding}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+					</StackPanel>
+
+					<Button Margin="0 114 0 0 " Command="{Binding ApplySensor}">Save</Button> 
+					
+				</StackPanel>
+
+			</TabItem>
+			<TabItem  VerticalContentAlignment="Center">
+				<TabItem.Header>
+					<TextBlock VerticalAlignment="Center" >API</TextBlock>
+				</TabItem.Header>
+
+				<StackPanel Margin="100 125 0 0 " HorizontalAlignment="Left" >
+					<TextBlock  HorizontalAlignment="Center" FontSize="16" FontWeight="Medium">API Server</TextBlock>
+					<TextBlock  HorizontalAlignment="Center" FontSize="16">Connection port:</TextBlock>
+					<TextBox  HorizontalAlignment="Center" FontSize="16" TextAlignment="Center" Width="100" Text="{Binding APIPort}">8685</TextBox>
+					<Button HorizontalAlignment="Center" Command="{Binding OpenServerPort }" Content="{Binding ApiServerStatus}"></Button>
+					<TextBlock  HorizontalAlignment="Center" TextAlignment="Center" Width="100">Is server active </TextBlock>
+					<TextBlock  HorizontalAlignment="Center" TextAlignment="Center" Width="100" Text="{Binding ApiServerStatus}"> </TextBlock>
+						
+
 				</StackPanel>
 
 			</TabItem>

@@ -6,7 +6,7 @@
 #include <ESP8266WiFi.h>
 #include <espnow.h>
 
-uint8_t broadcastAddress[] = {0xC8, 0xC9, 0xA3, 0x09, 0xE6, 0xB6};
+uint8_t broadcastAddress[] = {0xC8, 0xC9, 0xA3, 0x09, 0xCE, 0x16};
 
 
 
@@ -141,8 +141,8 @@ void setup() {
   pinMode(12, OUTPUT);
 
  // Calibration gyro 1
-  digitalWrite(14, HIGH);
-  digitalWrite(12, LOW);
+  //digitalWrite(14, HIGH);
+  //digitalWrite(12, LOW);
   mpu.CalibrateMPU().load_DMP_Image();// Does it all for you with Calibration
 
  // Calibration gyro 2

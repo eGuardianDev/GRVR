@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using DynamicData.Binding;
 using ReactiveUI;
+using Software.Classes.Controllers;
+using Software.Classes.DataLoggin;
 using Software.ViewModels;
 using Software.Views;
 using System;
@@ -21,7 +23,8 @@ namespace Software.Classes
         Skeleton skeleton;      // structure of body 
         public Station station; // communication with hardware 
         public MainWindowViewModel vm; // design  <- bad way of doing, but i'm too lazy to research
-        API api;                // communication with other programs;
+        public API api;                // communication with other programs;
+        public BoneStructureLoader bsl;
         public Controller(MainWindowViewModel vm)
         {
             this.vm = vm;
@@ -31,6 +34,7 @@ namespace Software.Classes
         public int CreateAPI()
         {
             api = new API(8585);
+            //  api.StartServer();
             return 0;
         } //generate API Coms class
         public int CreateStation()
@@ -54,16 +58,21 @@ namespace Software.Classes
             //CreateAPI();
 
             CreateStation();
-
-
+            CreateAPI();
+            bsl = new BoneStructureLoader(skeleton, vm);
             CreateSkeleton();
 
             Thread.Sleep(1000);
             vm.Ports = SerialPort.GetPortNames().ToList();
+
+            vm.BoneName = "None";
+            vm.BoneParent = "None";
+            vm.ConectedSensorName = "None";
+
             // -- Loop --
             Loop();
         }
-      
+
         public void Loop()
         {
             while (true)
@@ -79,45 +88,65 @@ namespace Software.Classes
                 //Station is offline, but the skeleton was working
                 // this means that there was a station and was setup,
                 // but now it is offline and the system is reset
-                if (!station.IsStationOnline && skeleton.isReady)
+                if (!station.IsStationOnline && vm.sens.Count >0)
                 {
                     Logger.Warn("Station is found offline");
                     Logger.Warn("Reseting the skeleton");
                     skeleton.Reset();
                     station.Clean();
                     vm.sens.Clear();
-                    Logger.Log($"{station.IsStationOnline} {skeleton.isReady}");
+                    Logger.Log($"{station.IsStationOnline} {skeleton.IsReady}");
                     Thread.Sleep(100);
                 }
                 // If the station is connected, but the skeleton isn't ready
                 // setup the skeelton
 
                 // ! this is temporary, need to change the bones setup;
-                if (!skeleton.isReady && station.IsStationOnline && station.AreSensorsReady)
-                {
-                    Logger.Log("Setting up the skeleton");
-                    skeleton.setupBone(0, station.GetSensor(0), null);
-                    skeleton.setupBone(1, station.GetSensor(1), skeleton.GetBone(0));
-                }
+                /*   if (!skeleton.IsReady && station.IsStationOnline && station.AreSensorsReady)
+                       {
+                           Logger.Log("Setting up the skeleton");
+                           skeleton.setupBone(0, station.GetSensor(0), null);
+                           skeleton.setupBone(1, station.GetSensor(1), skeleton.GetBone(0));
+                       }*/
                 // if the skeleton is setup and there are sensors 
-                if (skeleton.isReady && station.AreSensorsReady)
+                if (skeleton.IsReady && station.AreSensorsReady)
                 {
                     //calculate
                     skeleton.Calculate();
                 }
+                foreach (Sensor sensor in station.Sensors)
+                {
+                    sensor.Runtime();
+                }
+                if (api.IsOpen)
+                {
 
+                    foreach (Bone bone in bsl.Bones)
+                    {
+                        if (bone.ConnctedSensor != null)
+                        {
+                            bone.Calculate();
+                            api.SendMessage($"{bone.name} {bone.StartPos.X} {bone.StartPos.Y} {bone.StartPos.Z} {bone.ConnctedSensor.FinalX} {bone.ConnctedSensor.FinalY} {bone.ConnctedSensor.FinalZ}");
+                        }
+                    }
+                }
                 //information display
                 vm.StationStatus = $"{(station.IsStationOnline ? "Online" : "Offline")}";
                 vm.StatusColor = $"{(station.IsStationOnline ? "Green" : "Red")}";
 
-
-
+                vm.ApiServerStatus = $"{(api.IsOpen ? "Online" : "Offline")}";
+                vm.AreSensorsLoaded = (station.Sensors.Count > 0) ? false : true;
 
 
                 Thread.Sleep(15);
             }
         }
 
+        public void StartAPIServer()
+        {
+            Logger.Log("starting server ");
+            api.StartServer();
+        }
         public void DisplayTestValues()
         {
 

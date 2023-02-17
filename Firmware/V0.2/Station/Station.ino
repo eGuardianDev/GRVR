@@ -38,7 +38,6 @@ void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
  
 void setup() {
   Serial.begin(115200);
-  
   WiFi.mode(WIFI_STA);
 
   if (esp_now_init() != 0) {

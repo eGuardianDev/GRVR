@@ -28,9 +28,9 @@ namespace Software.Classes
         public static bool DebugMode = true;
         public static void ShowHide()
         {
-            var handle = GetConsoleWindow();
+          //  var handle = GetConsoleWindow();
           
-            ShowWindow(handle, SW_SHOW);
+           // ShowWindow(handle, SW_SHOW);
 
             Info("IF YOU CLOSE THE CONSOLE, THE WHOLE APPLICATION WILL CLOSE!");
             Info($"Debug mode {(DebugMode ? "On" : "Off")}");

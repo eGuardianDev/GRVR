@@ -33,7 +33,9 @@ namespace Software.Classes
         //This is the bone that is connected before it
         //It's used for repositioning
         public Bone parentBone;
-
+        public string name;
+        public string displayPosX;
+        public string displayPosY;
         //This variables stores the sensor used for calculating rotiaton
         private Sensor connectedSensor;
         public Sensor ConnctedSensor

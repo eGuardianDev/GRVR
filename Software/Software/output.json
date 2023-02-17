@@ -1,0 +1,86 @@
+{
+			"UpperBody": [
+				{
+					"name": "Center",
+					"idOfSensor":0,
+					"parentBone": "",
+					"PosX": 2,
+					"PosY": 1,
+					"Active": "true"
+				},
+				{
+					"name": "ArmLeftUp",
+					"idOfSensor": 0,
+					"parentBone": "Center",
+					"PosX": 1,
+					"PosY": 1,
+					"Active": "true"
+				},
+				{
+					"name": "ArmRightUp",
+					"idOfSensor": 0,
+					"parentBone": "Center",
+					"PosX": 3,
+					"PosY": 1,
+					"Active": "true"
+				},
+				{
+					"name": "ArmLeftDown",
+					"idOfSensor": 0,
+					"parentBone": "ArmLeftUp",
+					"PosX": 0,
+					"PosY": 1,
+					"Active": "true"
+				},
+				{
+					"name": "ArmRightDown",
+					"idOfSensor": 0,
+					"parentBone": "ArmRightUp",
+					"PosX": 4,
+					"PosY": 1,
+					"Active": "true"
+				}
+			],
+			"Legs": [
+				{
+					"name": "LowCenter",
+					"idOfSensor":0,
+					"parentBone": "Center",
+					"PosX": 2,
+					"PosY": 2,
+					"Active": "true"
+				},
+				{
+					"name": "LegLeftUp",
+					"idOfSensor": 0,
+					"parentBone": "LowCenter",
+					"PosX": 1,
+					"PosY": 3,
+					"Active": "true"
+				},
+				{
+					"name": "LegRightUp",
+					"idOfSensor": 0,
+					"parentBone": "LowCenter",
+					"PosX": 3,
+					"PosY": 3,
+					"Active": "true"
+				},
+				{
+					"name": "LegLeftDown",
+					"idOfSensor": 0,
+					"parentBone": "LegLeftUp",
+					"PosX": 1,
+					"PosY": 4,
+					"Active": "true"
+				},
+				{
+					"name": "LegRightDown",
+					"idOfSensor": 0,
+					"parentBone": "LegRightUp",
+					"PosX":3,
+					"PosY": 4,
+					"Active": "true"
+				}
+			]
+}

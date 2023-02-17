@@ -31,6 +31,13 @@ namespace Software.Classes
         public double OffsetY { get => offsety; set => this.RaiseAndSetIfChanged(ref offsety, value); }
         public double OffsetZ { get => offsetz; set => this.RaiseAndSetIfChanged(ref offsetz, value); }
 
+        private double finalX;
+        private double finalY;
+        private double finalZ;
+        public double FinalX { get => finalX; set => this.RaiseAndSetIfChanged(ref finalX, value); }
+        public double FinalY { get => finalY; set => this.RaiseAndSetIfChanged(ref finalY, value); }
+        public double FinalZ { get => finalZ; set => this.RaiseAndSetIfChanged(ref finalZ, value); }
+
 
         public int ID { get { return id; }  set { this.id = value; }}
 
@@ -47,6 +54,12 @@ namespace Software.Classes
             return 0;
         }
 
-
+        public int Runtime()
+        {
+            FinalY = Math.Round(Y - OffsetY,2);
+            FinalZ = Math.Round(Z - OffsetZ,2);
+            FinalX = Math.Round(X - OffsetX,2);
+                return 0;
+        }
     }
 }

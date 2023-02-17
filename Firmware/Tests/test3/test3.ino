@@ -5,8 +5,6 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 WiFiClient client;
-const uint16_t port = 8585;
-const char *host = "192.168.0.103";
 #define MPU6050_ADDRESS_AD0_LOW     0x68 // address pin low (GND), default for InvenSense evaluation board
 #define MPU6050_ADDRESS_AD0_HIGH    0x69 // address pin high (VCC)
 #define MPU6050_DEFAULT_ADDRESS     MPU6050_ADDRESS_AD0_LOW
@@ -29,12 +27,7 @@ Simple_MPU6050 mpu(Six_Axis_Quaternions);
 
 
 void PrintEuler(int32_t *quat, uint16_t SpamDelay = 100) {
-    if (!client.connect(host, port))
-    {
-        Serial.println("Connection to host failed");
-        delay(1000);
-        return;
-    }
+   
 //   
 //    while (client.available() > 0)
 //    {
@@ -52,11 +45,11 @@ void PrintEuler(int32_t *quat, uint16_t SpamDelay = 100) {
     mpu.ConvertToDegrees(euler, eulerDEG);
 
     String data = String( eulerDEG[0] )+ " " +  String(eulerDEG[1] )+ " " +  String(eulerDEG[2]) ;
-    client.println(data);
-    client.stop();
-//    Serial.printfloatx(F("euler  ")  , eulerDEG[0], 9, 4, F(",   ")); //printfloatx is a Helper Macro that works with Serial.print that I created (See #define above)
-//    Serial.printfloatx(F("")       , eulerDEG[1], 9, 4, F(",   "));
-//    Serial.printfloatx(F("")       , eulerDEG[2], 9, 4, F("\n"));
+ //   client.println(data);
+ //   client.stop();
+    Serial.printfloatx(F("euler  ")  , eulerDEG[0], 9, 4, F(",   ")); //printfloatx is a Helper Macro that works with Serial.print that I created (See #define above)
+    Serial.printfloatx(F("")       , eulerDEG[1], 9, 4, F(",   "));
+    Serial.printfloatx(F("")       , eulerDEG[2], 9, 4, F("\n"));
   }
   
 //    Serial.print('\n');
@@ -79,14 +72,6 @@ void setup() {
     Serial.begin(115200);
     Serial.println("Connecting...\n");
     WiFi.mode(WIFI_STA);
-    WiFi.begin("", ""); // change it to your ussid and password
-    while (WiFi.status() != WL_CONNECTED)
-    {
-        delay(500);
-        Serial.print(".");
-    }
-
-
   
   // initialize serial communication
   while (!Serial); // wait for Leonardo enumeration, others continue immediately
