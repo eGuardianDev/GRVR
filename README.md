@@ -9,10 +9,15 @@
 
 
 <br/>
-<h2>Todo:</h2>
-- [ ] Detection Of Rotation
+<h2>Current State:</h2>
+
+- [X] Point localization algorithm 
+- [X] API implementation
+- [X] Custom json file on configuration
+- [X] ESP-NOW Communication
 - [ ] Controllers
 - [ ] Movement algorithm
+- [ ] Headset display
 
 <h2> Tech Stack </h2>
 
@@ -20,7 +25,7 @@
 |:---:|:---:|:---:|:---:|
 ||ESP8266|AvaloniaUI|SteamVR|
 ||MPU6050| |Panda3d|
-||c++| C#| C++ & Python|
+||C++| C#| C++ & Python|
 
 
 ## Documentation
@@ -28,6 +33,5 @@
 [Documentation](https://github.com/eGuardianDev/GRVR/wiki)
 
 ## Limitations
-
-#### <b>Problem:</b> Point need to be connected to another to have tracking.<br>
-#### <b>Possible semi-Solution:<b> Maybe a inverse kenematics algorithms can be introduced, which will allow one point to be skipped, but this can introduce wrong estimations for the positions of points.
+#### 1. Many sensors are needed to track every main point of the body.
+#### 2. Every point should have a "parent" point. (Except point zero)
