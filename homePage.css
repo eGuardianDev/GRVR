@@ -3,27 +3,61 @@
 .Introduction{
     position:absolute;
     text-align: center;
-    left:15vw;
-    right:15vw;
+    
     top:25vh;
-    background-color: rgba(255, 32, 32, 0.253);
+    width: 100%;
+    background-color: rgba(134, 134, 134, 0.151);
 
 }
 
 
 .Introduction h1{
-    font-size: 8.4vh;;
+    font-size: 8.1vh;;
 }
-        
-.OpenSourceText{
+       
+
+.HowDoesItWorkText{
+    position: absolute;
+    top:225vh;
+    width: 100%;
+}
+.HowDoesItWorkText div{
+    padding:4vh;
+}
+
+.OpenSourceText {
     position: absolute;
     top:125vh;
     width: 100%;
-    }
+    float:right;
+}
+.OpenSourceText img{
+    z-index: -1;
+    top:-10%;
+    opacity:.75;
+    float:right;
+    top:-50%;
+    position: absolute;
+    right:0;
+    box-shadow: -10px 0 5px 10px rgb(34, 39, 46);
+}
   
 .OpenSourceText div{
     padding:4vh;
 }
+
+
+.DownloadSection{
+    position: absolute;
+    top:325vh;
+    width: 100%;
+    
+}
+.DownloadSection div{
+    padding:4vh;
+}
+
+
 .definedBetter{
-    background-color: rgba(255, 255, 255, 0.068);
+    background-color: rgba(255, 255, 255, 0.007);
 }
