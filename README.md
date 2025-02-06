@@ -35,3 +35,12 @@
 ## Limitations
 #### 1. Many sensors are needed to track every main point of the body.
 #### 2. Every point should have a "parent" point. (Except point zero)
+
+
+
+## Pictures
+![Main menu](GRVR-1.png)
+![Sensors](GRVR-2.png)
+![Set](GRVR-3.png)
+![API](GRVR-4.png)
+![Console](GRVR-5.png)
